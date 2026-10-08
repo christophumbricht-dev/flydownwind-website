@@ -88,7 +88,7 @@ const band = (lang, text) => `<section class="band"><img src="/assets/photos/ban
   <div class="wrap band-in"><p>${text}</p></div>${credit(lang)}</section>`;
 
 const screens = (lang, title, items) => `<section class="screens"><div class="wrap"><h2>${title}</h2></div>
-  <div class="screens-row">${items.map(([f, cap]) => `<figure class="phone"><img src="/assets/screens/${lang}/${f}.webp" alt="${cap}" width="540" height="1169" loading="lazy"><figcaption>${cap}</figcaption></figure>`).join("")}</div></section>`;
+  <div class="screens-row">${items.map(([f, cap]) => `<figure class="phone"><img src="/assets/screens/${lang}/${f}.webp" alt="${cap}" width="540" height="1171" loading="lazy"><figcaption>${cap}</figcaption></figure>`).join("")}</div></section>`;
 
 const home = {
   en: () => ({
