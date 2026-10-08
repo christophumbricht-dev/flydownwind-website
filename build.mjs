@@ -8,6 +8,45 @@ const SITE = "https://flydownwind.ch";
 const UPDATED = { en: "8 October 2026", de: "8. Oktober 2026" };
 const POLICY_VERSION = { en: "0.9 (draft)", de: "0.9 (Entwurf)" };
 const MAIL = { hello: "hello@flydownwind.ch" };
+// beta sign-up form → Supabase function beta_signup() (public anon key, like in the app; the table is readable by admins only)
+const SB = { url: "https://zjtezzimjqtcvvjkldlk.supabase.co", anon: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpqdGV6emltanF0Y3Z2amtsZGxrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExMzM2MzQsImV4cCI6MjEwNjcwOTYzNH0.Uw-d5YKEWScnpUp25WQw7mfTMgFzOf6Vy9-ogvbQa2k" };
+const SIGNUP = {
+  en: { title: "Join the beta", intro: "Downwind is tested on the iPhone with Apple TestFlight. Leave your details and we will invite you by e-mail.",
+    first: "First name", last: "Last name", email: "E-mail", emailHint: "Ideally the e-mail of your Apple ID – the TestFlight invitation goes there.",
+    source: "How did you hear about Downwind?", choose: "Please choose", opts: [["instagram", "Instagram"], ["friends", "Friends / pilot colleagues"], ["airfield", "At the airfield"], ["club", "Club / flying group"], ["search", "Search (Google etc.)"], ["other", "Other"]],
+    note: "Tell us more (optional)", notePh: "e.g. what you fly, where you are based, what you expect from Downwind",
+    consent: "I agree that Downwind stores these details to invite me to the beta.", privacy: "Privacy policy",
+    send: "Sign up", sending: "Sending …", cancel: "Close",
+    okTitle: "Thank you!", ok: "We will invite you by e-mail via TestFlight in the next days. Tip: install <b>TestFlight</b> from the App Store already.",
+    guide: "Tester guide (PDF)", err: "That did not work. Please try again or write to", errBusy: "Many sign-ups right now – please try again in a few minutes or write to" },
+  de: { title: "Bei der Beta mitmachen", intro: "Downwind wird auf dem iPhone mit Apple TestFlight getestet. Hinterlass deine Angaben, wir laden dich per E-Mail ein.",
+    first: "Vorname", last: "Nachname", email: "E-Mail", emailHint: "Am besten die E-Mail deiner Apple-ID – dorthin kommt die TestFlight-Einladung.",
+    source: "Wie bist du auf Downwind gekommen?", choose: "Bitte wählen", opts: [["instagram", "Instagram"], ["friends", "Freunde / Fliegerkollegen"], ["airfield", "Am Flugplatz"], ["club", "Club / Fliegergruppe"], ["search", "Suche (Google usw.)"], ["other", "Anderes"]],
+    note: "Erzähl uns mehr (freiwillig)", notePh: "z. B. was du fliegst, wo du stationiert bist, was du dir von Downwind wünschst",
+    consent: "Ich bin einverstanden, dass Downwind diese Angaben speichert, um mich zur Beta einzuladen.", privacy: "Datenschutz",
+    send: "Anmelden", sending: "Wird gesendet …", cancel: "Schliessen",
+    okTitle: "Danke!", ok: "Wir laden dich in den nächsten Tagen per E-Mail über TestFlight ein. Tipp: Installiere schon mal <b>TestFlight</b> aus dem App Store.",
+    guide: "Testerheft (PDF)", err: "Das hat nicht geklappt. Versuch es nochmals oder schreib an", errBusy: "Gerade melden sich viele an – versuch es in ein paar Minuten nochmals oder schreib an" },
+};
+const signupDialog = lang => { const t = SIGNUP[lang], pv = lang === "de" ? "/de/privacy/" : "/privacy/";
+  return `<dialog class="signup" id="signup" aria-labelledby="signupTitle" data-url="${SB.url}" data-key="${SB.anon}" data-lang="${lang}">
+<form method="dialog" class="signup-form" novalidate>
+  <button class="signup-x" value="cancel" aria-label="${t.cancel}" formnovalidate>×</button>
+  <div class="signup-body">
+  <h2 id="signupTitle">${t.title}</h2><p class="muted">${t.intro}</p>
+  <div class="two"><label>${t.first}<input name="first" autocomplete="given-name" required maxlength="60"></label>
+  <label>${t.last}<input name="last" autocomplete="family-name" required maxlength="60"></label></div>
+  <label>${t.email}<input name="email" type="email" autocomplete="email" required maxlength="200"><small>${t.emailHint}</small></label>
+  <label>${t.source}<select name="source" required><option value="">${t.choose}</option>${t.opts.map(([v, l]) => `<option value="${v}">${l}</option>`).join("")}</select></label>
+  <label>${t.note}<textarea name="note" rows="3" maxlength="1000" placeholder="${t.notePh}"></textarea></label>
+  <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
+  <label class="check"><input type="checkbox" name="consent" required> <span>${t.consent} <a href="${pv}" target="_blank" rel="noopener">${t.privacy}</a></span></label>
+  <p class="signup-err" role="alert" hidden data-err="${t.err}" data-busy="${t.errBusy}"></p>
+  <button class="btn" type="submit" data-sending="${t.sending}">${t.send}</button>
+  </div>
+  <div class="signup-ok" hidden><h2>${t.okTitle}</h2><p>${t.ok}</p><p><a class="btn ghost" href="/beta/testerheft.pdf">${t.guide}</a></p></div>
+</form></dialog>
+<script src="/assets/signup.js" defer></script>`; };
 // beta testers are invited by e-mail only (TestFlight external group, no public link)
 
 const T = {
@@ -62,6 +101,7 @@ ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" hr
 ${body}
 </main>
 <footer class="foot"><div class="wrap"><b>${t.foot.nav}</b><a href="${url(lang, "privacy")}">${t.foot.privacy}</a><a href="${url(lang, "support")}">${t.foot.support}</a><a href="${url(lang, "imprint")}">${t.foot.imprint}</a><span>© 2026 Downwind · ${t.foot.made}</span></div></footer>
+${signupDialog(lang)}
 </body>
 </html>
 `;
@@ -78,7 +118,7 @@ const hero = (lang, t) => `<section class="hero-photo">
     <div class="hero-brand"><img src="/assets/icon.svg" alt="" width="56" height="56"><span>Fly / Log / Share</span></div>
     <h1>${t.h1}</h1>
     <p class="lead">${t.lead}</p>
-    <div class="row"><a class="btn" href="mailto:${MAIL.hello}?subject=Downwind%20beta">${t.cta}</a><a class="btn glass" href="${lang === "de" ? "/de/beta/" : "/beta/"}">${t.how}</a></div>
+    <div class="row"><a class="btn" href="mailto:${MAIL.hello}?subject=Downwind%20beta" data-signup>${t.cta}</a><a class="btn glass" href="${lang === "de" ? "/de/beta/" : "/beta/"}">${t.how}</a></div>
     <span class="badge glass">${t.soon}</span>
   </div>${credit(lang)}</section>`;
 const feature = (lang, img, kicker, title, text, flip) => `<section class="feature${flip ? " flip" : ""}">
@@ -102,7 +142,7 @@ const home = {
       `</div>` +
       screens("en", "A look inside the app", [["feed", "Feed – flights of your wingmen"], ["flight", "Every flight on the swisstopo map"], ["logbook", "Logbook – current & valid"], ["explore", "Explore routes and classics"]]) +
       band("en", "Downwind is not for navigation. Plan and fly with official charts, AIP, VAC and NOTAM.") +
-      `<div class="wrap"><section class="cta-card"><h2>Fly with us in the beta</h2><p>Want to try Downwind before the launch? Write to <a href="mailto:${MAIL.hello}?subject=Downwind%20beta">${MAIL.hello}</a> or read <a href="/beta/">how the TestFlight beta works</a>.</p></section></div>`,
+      `<div class="wrap"><section class="cta-card"><h2>Fly with us in the beta</h2><p><a class="btn" href="mailto:${MAIL.hello}?subject=Downwind%20beta" data-signup>Join the beta</a></p><p>Want to try Downwind before the launch? Sign up above, write to <a href="mailto:${MAIL.hello}?subject=Downwind%20beta">${MAIL.hello}</a> or read <a href="/beta/">how the TestFlight beta works</a>.</p></section></div>`,
   }),
   de: () => ({
     title: "Downwind – Fly / Log / Share", desc: "Das soziale Flugbuch für Privatpilotinnen und -piloten: automatische Aufzeichnung, Flüge auf der Landeskarte, Flugbuch und Wingmen.",
@@ -115,7 +155,7 @@ const home = {
       `</div>` +
       screens("de", "Ein Blick in die App", [["feed", "Feed – Flüge deiner Wingmen"], ["flight", "Jeder Flug auf der Landeskarte"], ["logbook", "Flugbuch – aktuell & gültig"], ["explore", "Routen und Klassiker entdecken"]]) +
       band("de", "Downwind ist nicht zur Navigation bestimmt. Plane und fliege mit offiziellen Karten, AIP, VAC und NOTAM.") +
-      `<div class="wrap"><section class="cta-card"><h2>Flieg mit in der Beta</h2><p>Möchtest du Downwind vor dem Start ausprobieren? Schreib an <a href="mailto:${MAIL.hello}?subject=Downwind%20Beta">${MAIL.hello}</a> oder lies, <a href="/de/beta/">wie die TestFlight-Beta funktioniert</a>.</p></section></div>`,
+      `<div class="wrap"><section class="cta-card"><h2>Flieg mit in der Beta</h2><p><a class="btn" href="mailto:${MAIL.hello}?subject=Downwind%20Beta" data-signup>Bei der Beta mitmachen</a></p><p>Möchtest du Downwind vor dem Start ausprobieren? Melde dich oben an, schreib an <a href="mailto:${MAIL.hello}?subject=Downwind%20Beta">${MAIL.hello}</a> oder lies, <a href="/de/beta/">wie die TestFlight-Beta funktioniert</a>.</p></section></div>`,
   }),
 };
 
@@ -125,7 +165,7 @@ const beta = {
     body: `<div class="wrap prose"><h1>Join the beta</h1>
 <p>Downwind is tested with <b>TestFlight</b>, Apple's app for beta versions. You need an iPhone with iOS 15 or newer.</p>
 <ol>
-<li>Write to <a href="mailto:${MAIL.hello}?subject=Downwind%20beta">${MAIL.hello}</a> with your name and the e-mail address of your Apple ID. The beta is by invitation – there is no public link.</li>
+<li><a class="btn" href="mailto:${MAIL.hello}?subject=Downwind%20beta" data-signup>Sign up for the beta</a> – or write to <a href="mailto:${MAIL.hello}?subject=Downwind%20beta">${MAIL.hello}</a> with your name and the e-mail address of your Apple ID. The beta is by invitation – there is no public link.</li>
 <li>Install <b>TestFlight</b> from the App Store (free, by Apple).</li>
 <li>You get an invitation e-mail from TestFlight. Open it on your iPhone and tap <b>View in TestFlight</b>.</li>
 <li>In TestFlight tap <b>Accept</b> and then <b>Install</b>. Downwind appears on your home screen.</li>
@@ -143,7 +183,7 @@ const beta = {
     body: `<div class="wrap prose"><h1>Bei der Beta mitmachen</h1>
 <p>Downwind wird mit <b>TestFlight</b> getestet, Apples App für Beta-Versionen. Du brauchst ein iPhone mit iOS 15 oder neuer.</p>
 <ol>
-<li>Schreib an <a href="mailto:${MAIL.hello}?subject=Downwind%20Beta">${MAIL.hello}</a> mit deinem Namen und der E-Mail-Adresse deiner Apple-ID. Die Beta läuft nur auf Einladung – es gibt keinen öffentlichen Link.</li>
+<li><a class="btn" href="mailto:${MAIL.hello}?subject=Downwind%20Beta" data-signup>Für die Beta anmelden</a> – oder schreib an <a href="mailto:${MAIL.hello}?subject=Downwind%20Beta">${MAIL.hello}</a> mit deinem Namen und der E-Mail-Adresse deiner Apple-ID. Die Beta läuft nur auf Einladung – es gibt keinen öffentlichen Link.</li>
 <li>Installiere <b>TestFlight</b> aus dem App Store (gratis, von Apple).</li>
 <li>Du bekommst eine Einladungs-E-Mail von TestFlight. Öffne sie auf dem iPhone und tippe auf <b>In TestFlight anzeigen</b>.</li>
 <li>Tippe in TestFlight auf <b>Annehmen</b> und dann <b>Installieren</b>. Downwind erscheint auf dem Home-Bildschirm.</li>
@@ -242,6 +282,7 @@ const privacy = {
 <li><b>Notifications:</b> a push token of your device and your notification settings.</li>
 <li><b>Feedback</b> you send: text, optional screenshot, app version and device type.</li>
 <li><b>Error reports:</b> error message, technical details, app version and platform, so we can fix problems.</li>
+<li><b>Beta sign-up on this website (optional):</b> first name, last name, e-mail address, how you heard of Downwind and your message – only to invite you to the TestFlight beta. The form sends these details to our database (Supabase, Frankfurt) only when you submit it.</li>
 <li><b>Verification (optional):</b> if you ask to be shown as the official account of an airfield or club, or as a flight instructor: the contact e-mail and message you enter; for instructors also a photo of the licence page with the FI certificate and its expiry date. Only Downwind admins see the request. <b>The photo is deleted as soon as the request is decided.</b> The verified role (e.g. “official account of LSZG”, “FI”) and the date are visible to signed-in pilots. Airfield accounts can send feedback on traffic circuits, optionally with a photo or PDF of the official circuit chart (only admins see it).</li>
 </ul>
 
@@ -281,6 +322,7 @@ const privacy = {
 <h2>8. Retention and deletion</h2>
 <ul>
 <li>Your data is kept as long as you have an account.</li>
+<li><b>Beta sign-ups</b> are deleted on request (write to ${MAIL.hello}) and at the latest six months after the public launch of the app.</li>
 <li><b>Settings → Account → Delete account</b> deletes your account, profile, flights, tracks, photos, messages and all other personal data at once (and revokes Sign in with Apple). Reports and error reports you made remain without a link to you; backups of our provider are overwritten within at most 30 days.</li>
 <li><b>Export:</b> Settings → Data – logbook as CSV and PDF, tracks as GPX, all your data as a JSON file.</li>
 </ul>
@@ -329,6 +371,7 @@ const privacy = {
 <li><b>Mitteilungen:</b> ein Push-Token deines Geräts und deine Einstellungen für Mitteilungen.</li>
 <li><b>Feedback</b>, das du sendest: Text, optional ein Bildschirmfoto, App-Version und Gerätetyp.</li>
 <li><b>Fehlerberichte:</b> Fehlermeldung, technische Angaben, App-Version und Plattform, damit wir Fehler beheben können.</li>
+<li><b>Beta-Anmeldung auf dieser Website (freiwillig):</b> Vorname, Nachname, E-Mail-Adresse, wie du auf Downwind gekommen bist, und deine Nachricht – nur, um dich zur TestFlight-Beta einzuladen. Das Formular sendet die Angaben erst beim Absenden an unsere Datenbank (Supabase, Frankfurt).</li>
 <li><b>Verifizierung (freiwillig):</b> Wenn du als offizielles Konto eines Flugplatzes oder Clubs oder als Fluglehrer angezeigt werden möchtest: die Kontakt-E-Mail und Nachricht, die du eingibst; bei Fluglehrern zusätzlich ein Foto der Lizenzseite mit der FI-Berechtigung und deren Ablaufdatum. Die Anfrage sehen nur die Downwind-Admins. <b>Das Foto wird gelöscht, sobald über die Anfrage entschieden ist.</b> Die bestätigte Rolle (z. B. «offizielles Konto von LSZG», «FI») und das Datum sehen angemeldete Piloten. Flugplatzkonten können Rückmeldungen zu Platzrunden senden, optional mit Foto oder PDF des offiziellen Platzrundenplans (nur für Admins sichtbar).</li>
 </ul>
 
@@ -368,6 +411,7 @@ const privacy = {
 <h2>8. Aufbewahrung und Löschung</h2>
 <ul>
 <li>Deine Daten bleiben gespeichert, solange du ein Konto hast.</li>
+<li><b>Beta-Anmeldungen</b> löschen wir auf Wunsch (Nachricht an ${MAIL.hello}) und spätestens sechs Monate nach dem öffentlichen Start der App.</li>
 <li><b>Einstellungen → Konto → Konto löschen</b> löscht Konto, Profil, Flüge, Tracks, Fotos, Nachrichten und alle anderen Personendaten sofort (und widerruft «Mit Apple anmelden»). Deine Meldungen und Fehlerberichte bleiben ohne Verbindung zu dir; Sicherungskopien unseres Anbieters werden innert höchstens 30 Tagen überschrieben.</li>
 <li><b>Export:</b> Einstellungen → Daten – Flugbuch als CSV und PDF, Tracks als GPX, alle deine Daten als JSON-Datei.</li>
 </ul>

@@ -54,6 +54,7 @@
 <li><b>Mitteilungen:</b> ein Push-Token deines Geräts und deine Einstellungen für Mitteilungen.</li>
 <li><b>Feedback</b>, das du sendest: Text, optional ein Bildschirmfoto, App-Version und Gerätetyp.</li>
 <li><b>Fehlerberichte:</b> Fehlermeldung, technische Angaben, App-Version und Plattform, damit wir Fehler beheben können.</li>
+<li><b>Beta-Anmeldung auf dieser Website (freiwillig):</b> Vorname, Nachname, E-Mail-Adresse, wie du auf Downwind gekommen bist, und deine Nachricht – nur, um dich zur TestFlight-Beta einzuladen. Das Formular sendet die Angaben erst beim Absenden an unsere Datenbank (Supabase, Frankfurt).</li>
 <li><b>Verifizierung (freiwillig):</b> Wenn du als offizielles Konto eines Flugplatzes oder Clubs oder als Fluglehrer angezeigt werden möchtest: die Kontakt-E-Mail und Nachricht, die du eingibst; bei Fluglehrern zusätzlich ein Foto der Lizenzseite mit der FI-Berechtigung und deren Ablaufdatum. Die Anfrage sehen nur die Downwind-Admins. <b>Das Foto wird gelöscht, sobald über die Anfrage entschieden ist.</b> Die bestätigte Rolle (z. B. «offizielles Konto von LSZG», «FI») und das Datum sehen angemeldete Piloten. Flugplatzkonten können Rückmeldungen zu Platzrunden senden, optional mit Foto oder PDF des offiziellen Platzrundenplans (nur für Admins sichtbar).</li>
 </ul>
 
@@ -93,6 +94,7 @@
 <h2>8. Aufbewahrung und Löschung</h2>
 <ul>
 <li>Deine Daten bleiben gespeichert, solange du ein Konto hast.</li>
+<li><b>Beta-Anmeldungen</b> löschen wir auf Wunsch (Nachricht an hello@flydownwind.ch) und spätestens sechs Monate nach dem öffentlichen Start der App.</li>
 <li><b>Einstellungen → Konto → Konto löschen</b> löscht Konto, Profil, Flüge, Tracks, Fotos, Nachrichten und alle anderen Personendaten sofort (und widerruft «Mit Apple anmelden»). Deine Meldungen und Fehlerberichte bleiben ohne Verbindung zu dir; Sicherungskopien unseres Anbieters werden innert höchstens 30 Tagen überschrieben.</li>
 <li><b>Export:</b> Einstellungen → Daten – Flugbuch als CSV und PDF, Tracks als GPX, alle deine Daten als JSON-Datei.</li>
 </ul>
@@ -114,5 +116,23 @@
 </div>
 </main>
 <footer class="foot"><div class="wrap"><b>Downwind ist nicht zur Navigation bestimmt.</b><a href="/de/privacy/">Datenschutz</a><a href="/de/support/">Hilfe</a><a href="/de/imprint/">Impressum</a><span>© 2026 Downwind · Gemacht in der Schweiz</span></div></footer>
+<dialog class="signup" id="signup" aria-labelledby="signupTitle" data-url="https://zjtezzimjqtcvvjkldlk.supabase.co" data-key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpqdGV6emltanF0Y3Z2amtsZGxrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExMzM2MzQsImV4cCI6MjEwNjcwOTYzNH0.Uw-d5YKEWScnpUp25WQw7mfTMgFzOf6Vy9-ogvbQa2k" data-lang="de">
+<form method="dialog" class="signup-form" novalidate>
+  <button class="signup-x" value="cancel" aria-label="Schliessen" formnovalidate>×</button>
+  <div class="signup-body">
+  <h2 id="signupTitle">Bei der Beta mitmachen</h2><p class="muted">Downwind wird auf dem iPhone mit Apple TestFlight getestet. Hinterlass deine Angaben, wir laden dich per E-Mail ein.</p>
+  <div class="two"><label>Vorname<input name="first" autocomplete="given-name" required maxlength="60"></label>
+  <label>Nachname<input name="last" autocomplete="family-name" required maxlength="60"></label></div>
+  <label>E-Mail<input name="email" type="email" autocomplete="email" required maxlength="200"><small>Am besten die E-Mail deiner Apple-ID – dorthin kommt die TestFlight-Einladung.</small></label>
+  <label>Wie bist du auf Downwind gekommen?<select name="source" required><option value="">Bitte wählen</option><option value="instagram">Instagram</option><option value="friends">Freunde / Fliegerkollegen</option><option value="airfield">Am Flugplatz</option><option value="club">Club / Fliegergruppe</option><option value="search">Suche (Google usw.)</option><option value="other">Anderes</option></select></label>
+  <label>Erzähl uns mehr (freiwillig)<textarea name="note" rows="3" maxlength="1000" placeholder="z. B. was du fliegst, wo du stationiert bist, was du dir von Downwind wünschst"></textarea></label>
+  <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
+  <label class="check"><input type="checkbox" name="consent" required> <span>Ich bin einverstanden, dass Downwind diese Angaben speichert, um mich zur Beta einzuladen. <a href="/de/privacy/" target="_blank" rel="noopener">Datenschutz</a></span></label>
+  <p class="signup-err" role="alert" hidden data-err="Das hat nicht geklappt. Versuch es nochmals oder schreib an" data-busy="Gerade melden sich viele an – versuch es in ein paar Minuten nochmals oder schreib an"></p>
+  <button class="btn" type="submit" data-sending="Wird gesendet …">Anmelden</button>
+  </div>
+  <div class="signup-ok" hidden><h2>Danke!</h2><p>Wir laden dich in den nächsten Tagen per E-Mail über TestFlight ein. Tipp: Installiere schon mal <b>TestFlight</b> aus dem App Store.</p><p><a class="btn ghost" href="/beta/testerheft.pdf">Testerheft (PDF)</a></p></div>
+</form></dialog>
+<script src="/assets/signup.js" defer></script>
 </body>
 </html>
