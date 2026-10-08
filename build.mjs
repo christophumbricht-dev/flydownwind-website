@@ -228,6 +228,7 @@ const privacy = {
 <li><b>Notifications:</b> a push token of your device and your notification settings.</li>
 <li><b>Feedback</b> you send: text, optional screenshot, app version and device type.</li>
 <li><b>Error reports:</b> error message, technical details, app version and platform, so we can fix problems.</li>
+<li><b>Verification (optional):</b> if you ask to be shown as the official account of an airfield or club, or as a flight instructor: the contact e-mail and message you enter; for instructors also a photo of the licence page with the FI certificate and its expiry date. Only Downwind admins see the request. <b>The photo is deleted as soon as the request is decided.</b> The verified role (e.g. “official account of LSZG”, “FI”) and the date are visible to signed-in pilots. Airfield accounts can send feedback on traffic circuits, optionally with a photo or PDF of the official circuit chart (only admins see it).</li>
 </ul>
 
 <h2>4. Location</h2>
@@ -314,6 +315,7 @@ const privacy = {
 <li><b>Mitteilungen:</b> ein Push-Token deines Geräts und deine Einstellungen für Mitteilungen.</li>
 <li><b>Feedback</b>, das du sendest: Text, optional ein Bildschirmfoto, App-Version und Gerätetyp.</li>
 <li><b>Fehlerberichte:</b> Fehlermeldung, technische Angaben, App-Version und Plattform, damit wir Fehler beheben können.</li>
+<li><b>Verifizierung (freiwillig):</b> Wenn du als offizielles Konto eines Flugplatzes oder Clubs oder als Fluglehrer angezeigt werden möchtest: die Kontakt-E-Mail und Nachricht, die du eingibst; bei Fluglehrern zusätzlich ein Foto der Lizenzseite mit der FI-Berechtigung und deren Ablaufdatum. Die Anfrage sehen nur die Downwind-Admins. <b>Das Foto wird gelöscht, sobald über die Anfrage entschieden ist.</b> Die bestätigte Rolle (z. B. «offizielles Konto von LSZG», «FI») und das Datum sehen angemeldete Piloten. Flugplatzkonten können Rückmeldungen zu Platzrunden senden, optional mit Foto oder PDF des offiziellen Platzrundenplans (nur für Admins sichtbar).</li>
 </ul>
 
 <h2>4. Standort</h2>
