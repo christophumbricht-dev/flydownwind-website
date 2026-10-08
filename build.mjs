@@ -131,6 +131,7 @@ const beta = {
 <li>In TestFlight tap <b>Accept</b> and then <b>Install</b>. Downwind appears on your home screen.</li>
 <li>Updates come through TestFlight; turn on automatic updates there.</li>
 </ol>
+<div class="note"><b>Tester guide:</b> what Downwind can do and what to test, with a checklist – <a href="/beta/testerheft.pdf">Downwind beta tester guide (PDF, German, 4 MB)</a>.</div>
 <h2>Feedback</h2>
 <ul><li>In Downwind: <b>Settings → Help &amp; legal → Send feedback</b> (text and an optional screenshot).</li>
 <li>Or take a screenshot and choose <b>Share Beta Feedback</b> in the share sheet, or open TestFlight → Downwind → <b>Send Beta Feedback</b>.</li>
@@ -148,6 +149,7 @@ const beta = {
 <li>Tippe in TestFlight auf <b>Annehmen</b> und dann <b>Installieren</b>. Downwind erscheint auf dem Home-Bildschirm.</li>
 <li>Updates kommen über TestFlight; schalte dort automatische Updates ein.</li>
 </ol>
+<div class="note"><b>Testerheft:</b> was Downwind kann und was du testen kannst, mit Checkliste zum Abhaken – <a href="/beta/testerheft.pdf">Downwind Beta-Testerheft (PDF, 4 MB)</a>.</div>
 <h2>Feedback</h2>
 <ul><li>In Downwind: <b>Einstellungen → Hilfe &amp; Rechtliches → Feedback senden</b> (Text und optional ein Bildschirmfoto).</li>
 <li>Oder ein Bildschirmfoto machen und im Teilen-Menü <b>Beta-Feedback teilen</b> wählen, oder TestFlight → Downwind → <b>Beta-Feedback senden</b>.</li>
