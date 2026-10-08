@@ -54,7 +54,7 @@ ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" hr
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/site.css">
 </head>
-<body>
+<body class="${page === "home" ? "is-home" : ""}">
 <a class="skip" href="#main">${t.skip}</a>
 <header class="top"><div class="wrap"><a class="brand" href="${url(lang, "")}"><img src="/assets/icon.svg" alt="" width="30" height="30">Downwind</a>
 <nav class="main" aria-label="Main">${nav}<a class="lang" href="${url(other, rel)}" hreflang="${other}" lang="${other}">${T[other].other === "English" ? "Deutsch" : "English"}</a></nav></div></header>
@@ -68,44 +68,49 @@ ${body}
 }
 
 /* ---------- pages ---------- */
+// Photos: Jürg Umbricht (@exploring_the_skies) – registrations retouched out; credit on every picture
+const CREDIT = { en: "Photo: Jürg Umbricht", de: "Foto: Jürg Umbricht" };
+const credit = lang => `<a class="credit" href="https://www.instagram.com/exploring_the_skies" rel="noopener">${CREDIT[lang]} · @exploring_the_skies</a>`;
+const hero = (lang, t) => `<section class="hero-photo">
+  <picture><source media="(max-width: 700px)" srcset="/assets/photos/hero-tall.webp"><img src="/assets/photos/hero-wide.webp" alt="" width="1800" height="1155" fetchpriority="high"></picture>
+  <div class="hero-shade"></div>
+  <div class="wrap hero-in">
+    <div class="hero-brand"><img src="/assets/icon.svg" alt="" width="56" height="56"><span>Fly / Log / Share</span></div>
+    <h1>${t.h1}</h1>
+    <p class="lead">${t.lead}</p>
+    <div class="row"><a class="btn" href="mailto:${MAIL.beta}?subject=Downwind%20beta">${t.cta}</a><a class="btn glass" href="${lang === "de" ? "/de/beta/" : "/beta/"}">${t.how}</a></div>
+    <span class="badge glass">${t.soon}</span>
+  </div>${credit(lang)}</section>`;
+const feature = (lang, img, kicker, title, text, flip) => `<section class="feature${flip ? " flip" : ""}">
+  <figure><img src="/assets/photos/${img}.webp" alt="" width="960" height="720" loading="lazy">${credit(lang)}</figure>
+  <div class="ft"><div class="kicker">${kicker}</div><h2>${title}</h2><p>${text}</p></div></section>`;
+const band = (lang, text) => `<section class="band"><img src="/assets/photos/band.webp" alt="" width="1800" height="838" loading="lazy"><div class="band-shade"></div>
+  <div class="wrap band-in"><p>${text}</p></div>${credit(lang)}</section>`;
+
 const home = {
   en: () => ({
     title: "Downwind – Fly / Log / Share", desc: "The social logbook for private pilots: automatic flight recording, your flights on the Swiss national map, logbook and wingmen.",
-    body: `<section class="hero"><div class="wrap"><img class="logo" src="/assets/icon.svg" alt="Downwind windsock logo" width="84" height="84">
-<h1>Downwind</h1><div class="tag">Fly / Log / Share</div>
-<p class="lead">The social logbook for private pilots. Your phone records the flight, Downwind turns it into a logbook entry and a flight you can share with your wingmen.</p>
-<div class="row"><span class="badge">Coming to the App Store in January 2027</span><a class="btn" href="mailto:${MAIL.beta}?subject=Downwind%20beta">Join the beta</a></div></div></section>
-<div class="wrap">
-<div class="grid">
-<div class="card"><h3>Auto-record</h3><p>Downwind notices the take-off and the landing near an airfield and records block times and the track – even with the phone in your pocket.</p></div>
-<div class="card"><h3>Swiss national map</h3><p>Every flight on the swisstopo map, in 2D or 3D, with a replay and a short video to share.</p></div>
-<div class="card"><h3>Logbook</h3><p>Times, landings, night, PIC – as CSV and as a printable PDF. Plus the 90-day rule and your expiry dates at a glance.</p></div>
-<div class="card"><h3>Wingmen &amp; club</h3><p>Share flights only with the pilots you confirm. Club page, fly-outs, chat and a little friendly collecting – never racing.</p></div>
-</div>
-<h2>Screenshots</h2>
-<div class="shots"><div class="shot">Screenshot<br>Feed</div><div class="shot">Screenshot<br>Flight map</div><div class="shot">Screenshot<br>Logbook</div></div>
-<div class="note"><b>Downwind is not for navigation.</b> It is a logbook and a way to share flights. Plan and fly with official charts, AIP, VAC and NOTAM.</div>
-<h2>Beta</h2><p>Want to try Downwind before the launch? Write to <a href="mailto:${MAIL.beta}?subject=Downwind%20beta">${MAIL.beta}</a> or read <a href="/beta/">how the TestFlight beta works</a>.</p>
-</div>`,
+    body: hero("en", { h1: "Your flights.<br>Your logbook.<br>Your wingmen.", lead: "The social logbook for private pilots. Your phone records the flight – Downwind turns it into a logbook entry and a flight you can share with your wingmen.", cta: "Join the beta", how: "How the beta works", soon: "Coming to the App Store in January 2027" }) +
+      `<div class="wrap features">` +
+      feature("en", "record", "Auto-record", "Just fly.", "Downwind notices take-off and landing near an airfield and records block times and the track – even with the phone in your pocket. After landing you review and share.") +
+      feature("en", "map", "Swiss national map", "Every flight on the map.", "Your tracks on the swisstopo map, in 2D or 3D, with a replay, a short video to share – and GAFOR routes and classics to collect.", true) +
+      feature("en", "logbook", "Logbook", "Current and valid at a glance.", "Times, landings, night and PIC as CSV and printable PDF. The 90-day rule, your expiry dates and reminders before they run out.") +
+      feature("en", "wingmen", "Wingmen & club", "Share with the people you fly with.", "Flights are visible only to wingmen you confirm. Club page, fly-outs and fly-ins, chat – and friendly collecting, never racing.", true) +
+      `</div>` +
+      band("en", "Downwind is not for navigation. Plan and fly with official charts, AIP, VAC and NOTAM.") +
+      `<div class="wrap"><section class="cta-card"><h2>Fly with us in the beta</h2><p>Want to try Downwind before the launch? Write to <a href="mailto:${MAIL.beta}?subject=Downwind%20beta">${MAIL.beta}</a> or read <a href="/beta/">how the TestFlight beta works</a>.</p></section></div>`,
   }),
   de: () => ({
     title: "Downwind – Fly / Log / Share", desc: "Das soziale Flugbuch für Privatpilotinnen und -piloten: automatische Aufzeichnung, Flüge auf der Landeskarte, Flugbuch und Wingmen.",
-    body: `<section class="hero"><div class="wrap"><img class="logo" src="/assets/icon.svg" alt="Downwind Windsack-Logo" width="84" height="84">
-<h1>Downwind</h1><div class="tag">Fly / Log / Share</div>
-<p class="lead">Das soziale Flugbuch für Privatpilotinnen und -piloten. Dein Handy zeichnet den Flug auf, Downwind macht daraus einen Flugbucheintrag und einen Flug, den du mit deinen Wingmen teilen kannst.</p>
-<div class="row"><span class="badge">Ab Januar 2027 im App Store</span><a class="btn" href="mailto:${MAIL.beta}?subject=Downwind%20Beta">Bei der Beta mitmachen</a></div></div></section>
-<div class="wrap">
-<div class="grid">
-<div class="card"><h3>Automatische Aufzeichnung</h3><p>Downwind erkennt Start und Landung bei einem Flugplatz und zeichnet Blockzeiten und Track auf – auch mit dem Handy in der Tasche.</p></div>
-<div class="card"><h3>Landeskarte</h3><p>Jeder Flug auf der swisstopo-Karte, in 2D oder 3D, mit Wiedergabe und kurzem Video zum Teilen.</p></div>
-<div class="card"><h3>Flugbuch</h3><p>Zeiten, Landungen, Nacht, PIC – als CSV und als druckbares PDF. Dazu die 90-Tage-Regel und deine Ablaufdaten auf einen Blick.</p></div>
-<div class="card"><h3>Wingmen &amp; Club</h3><p>Flüge nur mit Piloten teilen, die du bestätigst. Clubseite, Ausflüge, Chat und ein bisschen Sammeln – nie Wettrennen.</p></div>
-</div>
-<h2>Bilder</h2>
-<div class="shots"><div class="shot">Bildschirmfoto<br>Feed</div><div class="shot">Bildschirmfoto<br>Flugkarte</div><div class="shot">Bildschirmfoto<br>Flugbuch</div></div>
-<div class="note"><b>Downwind ist nicht zur Navigation bestimmt.</b> Es ist ein Flugbuch und eine Möglichkeit, Flüge zu teilen. Plane und fliege mit offiziellen Karten, AIP, VAC und NOTAM.</div>
-<h2>Beta</h2><p>Möchtest du Downwind vor dem Start ausprobieren? Schreib an <a href="mailto:${MAIL.beta}?subject=Downwind%20Beta">${MAIL.beta}</a> oder lies, <a href="/de/beta/">wie die TestFlight-Beta funktioniert</a>.</p>
-</div>`,
+    body: hero("de", { h1: "Deine Flüge.<br>Dein Flugbuch.<br>Deine Wingmen.", lead: "Das soziale Flugbuch für Privatpilotinnen und -piloten. Dein Handy zeichnet den Flug auf – Downwind macht daraus einen Flugbucheintrag und einen Flug, den du mit deinen Wingmen teilst.", cta: "Bei der Beta mitmachen", how: "So funktioniert die Beta", soon: "Ab Januar 2027 im App Store" }) +
+      `<div class="wrap features">` +
+      feature("de", "record", "Automatische Aufzeichnung", "Einfach fliegen.", "Downwind erkennt Start und Landung bei einem Flugplatz und zeichnet Blockzeiten und Track auf – auch mit dem Handy in der Tasche. Nach der Landung prüfen und teilen.") +
+      feature("de", "map", "Landeskarte", "Jeder Flug auf der Karte.", "Deine Tracks auf der swisstopo-Karte, in 2D oder 3D, mit Wiedergabe, kurzem Video zum Teilen – und GAFOR-Routen und Klassikern zum Sammeln.", true) +
+      feature("de", "logbook", "Flugbuch", "Aktuell und gültig auf einen Blick.", "Zeiten, Landungen, Nacht und PIC als CSV und druckbares PDF. Die 90-Tage-Regel, deine Ablaufdaten und Erinnerungen, bevor etwas abläuft.") +
+      feature("de", "wingmen", "Wingmen & Club", "Teilen mit denen, mit denen du fliegst.", "Flüge sehen nur Wingmen, die du bestätigst. Clubseite, Ausflüge und Fly-ins, Chat – und ein bisschen Sammeln, nie Wettrennen.", true) +
+      `</div>` +
+      band("de", "Downwind ist nicht zur Navigation bestimmt. Plane und fliege mit offiziellen Karten, AIP, VAC und NOTAM.") +
+      `<div class="wrap"><section class="cta-card"><h2>Flieg mit in der Beta</h2><p>Möchtest du Downwind vor dem Start ausprobieren? Schreib an <a href="mailto:${MAIL.beta}?subject=Downwind%20Beta">${MAIL.beta}</a> oder lies, <a href="/de/beta/">wie die TestFlight-Beta funktioniert</a>.</p></section></div>`,
   }),
 };
 
