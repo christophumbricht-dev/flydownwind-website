@@ -25,7 +25,13 @@
         body: JSON.stringify({ p_first: form.first.value.trim(), p_last: form.last.value.trim(), p_email: form.email.value.trim(),
           p_source: form.source.value, p_note: form.note.value.trim(), p_lang: dlg.dataset.lang })
       });
-      if (r.ok) done(); else { const j = await r.json().catch(() => ({})); fail(j.code === "54000"); }
+      if (r.ok) {
+        const id = await r.json().catch(() => null);   // tell the Downwind team (push to the admins, once per sign-up)
+        if (typeof id === "string") fetch(dlg.dataset.url + "/functions/v1/push", { method: "POST", keepalive: true,
+          headers: { "Content-Type": "application/json", apikey: dlg.dataset.key, Authorization: "Bearer " + dlg.dataset.key },
+          body: JSON.stringify({ beta_signup: id }) }).catch(() => {});
+        done();
+      } else { const j = await r.json().catch(() => ({})); fail(j.code === "54000"); }
     } catch { fail(false); }
     btn.disabled = false; btn.textContent = label;
   });
