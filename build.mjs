@@ -7,7 +7,7 @@ import path from "node:path";
 const SITE = "https://flydownwind.ch";
 const UPDATED = { en: "8 October 2026", de: "8. Oktober 2026" };
 const POLICY_VERSION = { en: "0.9 (draft)", de: "0.9 (Entwurf)" };
-const MAIL = { hello: "hello@flydownwind.ch", beta: "beta@flydownwind.ch" };
+const MAIL = { hello: "hello@flydownwind.ch" };
 const BETA_LINK = "";   // public TestFlight link, e.g. https://testflight.apple.com/join/XXXXXXXX – empty until the external beta starts
 
 const T = {
@@ -78,7 +78,7 @@ const hero = (lang, t) => `<section class="hero-photo">
     <div class="hero-brand"><img src="/assets/icon.svg" alt="" width="56" height="56"><span>Fly / Log / Share</span></div>
     <h1>${t.h1}</h1>
     <p class="lead">${t.lead}</p>
-    <div class="row"><a class="btn" href="mailto:${MAIL.beta}?subject=Downwind%20beta">${t.cta}</a><a class="btn glass" href="${lang === "de" ? "/de/beta/" : "/beta/"}">${t.how}</a></div>
+    <div class="row"><a class="btn" href="mailto:${MAIL.hello}?subject=Downwind%20beta">${t.cta}</a><a class="btn glass" href="${lang === "de" ? "/de/beta/" : "/beta/"}">${t.how}</a></div>
     <span class="badge glass">${t.soon}</span>
   </div>${credit(lang)}</section>`;
 const feature = (lang, img, kicker, title, text, flip) => `<section class="feature${flip ? " flip" : ""}">
@@ -98,7 +98,7 @@ const home = {
       feature("en", "wingmen", "Wingmen & club", "Share with the people you fly with.", "Flights are visible only to wingmen you confirm. Club page, fly-outs and fly-ins, chat – and friendly collecting, never racing.", true) +
       `</div>` +
       band("en", "Downwind is not for navigation. Plan and fly with official charts, AIP, VAC and NOTAM.") +
-      `<div class="wrap"><section class="cta-card"><h2>Fly with us in the beta</h2><p>Want to try Downwind before the launch? Write to <a href="mailto:${MAIL.beta}?subject=Downwind%20beta">${MAIL.beta}</a> or read <a href="/beta/">how the TestFlight beta works</a>.</p></section></div>`,
+      `<div class="wrap"><section class="cta-card"><h2>Fly with us in the beta</h2><p>Want to try Downwind before the launch? Write to <a href="mailto:${MAIL.hello}?subject=Downwind%20beta">${MAIL.hello}</a> or read <a href="/beta/">how the TestFlight beta works</a>.</p></section></div>`,
   }),
   de: () => ({
     title: "Downwind – Fly / Log / Share", desc: "Das soziale Flugbuch für Privatpilotinnen und -piloten: automatische Aufzeichnung, Flüge auf der Landeskarte, Flugbuch und Wingmen.",
@@ -110,7 +110,7 @@ const home = {
       feature("de", "wingmen", "Wingmen & Club", "Teilen mit denen, mit denen du fliegst.", "Flüge sehen nur Wingmen, die du bestätigst. Clubseite, Ausflüge und Fly-ins, Chat – und ein bisschen Sammeln, nie Wettrennen.", true) +
       `</div>` +
       band("de", "Downwind ist nicht zur Navigation bestimmt. Plane und fliege mit offiziellen Karten, AIP, VAC und NOTAM.") +
-      `<div class="wrap"><section class="cta-card"><h2>Flieg mit in der Beta</h2><p>Möchtest du Downwind vor dem Start ausprobieren? Schreib an <a href="mailto:${MAIL.beta}?subject=Downwind%20Beta">${MAIL.beta}</a> oder lies, <a href="/de/beta/">wie die TestFlight-Beta funktioniert</a>.</p></section></div>`,
+      `<div class="wrap"><section class="cta-card"><h2>Flieg mit in der Beta</h2><p>Möchtest du Downwind vor dem Start ausprobieren? Schreib an <a href="mailto:${MAIL.hello}?subject=Downwind%20Beta">${MAIL.hello}</a> oder lies, <a href="/de/beta/">wie die TestFlight-Beta funktioniert</a>.</p></section></div>`,
   }),
 };
 
@@ -121,7 +121,7 @@ const beta = {
 <p>Downwind is tested with <b>TestFlight</b>, Apple's app for beta versions. You need an iPhone with iOS 15 or newer.</p>
 <ol>
 <li>Install <b>TestFlight</b> from the App Store (free, by Apple).</li>
-<li>${BETA_LINK ? `Open the invitation link on your iPhone: <a href="${BETA_LINK}">${BETA_LINK}</a>` : `Tap the invitation link. <span class="muted">(The public link follows when the external beta starts – until then write to <a href="mailto:${MAIL.beta}">${MAIL.beta}</a>.)</span>`}</li>
+<li>${BETA_LINK ? `Open the invitation link on your iPhone: <a href="${BETA_LINK}">${BETA_LINK}</a>` : `Tap the invitation link. <span class="muted">(The public link follows when the external beta starts – until then write to <a href="mailto:${MAIL.hello}">${MAIL.hello}</a>.)</span>`}</li>
 <li>In TestFlight tap <b>Accept</b> and then <b>Install</b>. Downwind appears on your home screen.</li>
 <li>Updates come through TestFlight; turn on automatic updates there.</li>
 </ol>
@@ -137,7 +137,7 @@ const beta = {
 <p>Downwind wird mit <b>TestFlight</b> getestet, Apples App für Beta-Versionen. Du brauchst ein iPhone mit iOS 15 oder neuer.</p>
 <ol>
 <li>Installiere <b>TestFlight</b> aus dem App Store (gratis, von Apple).</li>
-<li>${BETA_LINK ? `Öffne den Einladungslink auf dem iPhone: <a href="${BETA_LINK}">${BETA_LINK}</a>` : `Tippe auf den Einladungslink. <span class="muted">(Der öffentliche Link folgt mit dem Start der externen Beta – bis dahin schreib an <a href="mailto:${MAIL.beta}">${MAIL.beta}</a>.)</span>`}</li>
+<li>${BETA_LINK ? `Öffne den Einladungslink auf dem iPhone: <a href="${BETA_LINK}">${BETA_LINK}</a>` : `Tippe auf den Einladungslink. <span class="muted">(Der öffentliche Link folgt mit dem Start der externen Beta – bis dahin schreib an <a href="mailto:${MAIL.hello}">${MAIL.hello}</a>.)</span>`}</li>
 <li>Tippe in TestFlight auf <b>Annehmen</b> und dann <b>Installieren</b>. Downwind erscheint auf dem Home-Bildschirm.</li>
 <li>Updates kommen über TestFlight; schalte dort automatische Updates ein.</li>
 </ol>
