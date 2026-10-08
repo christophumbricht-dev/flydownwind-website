@@ -87,6 +87,9 @@ const feature = (lang, img, kicker, title, text, flip) => `<section class="featu
 const band = (lang, text) => `<section class="band"><img src="/assets/photos/band.webp" alt="" width="1800" height="838" loading="lazy"><div class="band-shade"></div>
   <div class="wrap band-in"><p>${text}</p></div>${credit(lang)}</section>`;
 
+const screens = (lang, title, items) => `<section class="screens"><div class="wrap"><h2>${title}</h2></div>
+  <div class="screens-row">${items.map(([f, cap]) => `<figure class="phone"><img src="/assets/screens/${lang}/${f}.webp" alt="${cap}" width="540" height="1169" loading="lazy"><figcaption>${cap}</figcaption></figure>`).join("")}</div></section>`;
+
 const home = {
   en: () => ({
     title: "Downwind – Fly / Log / Share", desc: "The social logbook for private pilots: automatic flight recording, your flights on the Swiss national map, logbook and wingmen.",
@@ -97,6 +100,7 @@ const home = {
       feature("en", "logbook", "Logbook", "Current and valid at a glance.", "Times, landings, night and PIC as CSV and printable PDF. The 90-day rule, your expiry dates and reminders before they run out.") +
       feature("en", "wingmen", "Wingmen & club", "Share with the people you fly with.", "Flights are visible only to wingmen you confirm. Club page, fly-outs and fly-ins, chat – and friendly collecting, never racing.", true) +
       `</div>` +
+      screens("en", "A look inside the app", [["feed", "Feed – flights of your wingmen"], ["flight", "Every flight on the swisstopo map"], ["logbook", "Logbook – current & valid"], ["explore", "Explore routes and classics"]]) +
       band("en", "Downwind is not for navigation. Plan and fly with official charts, AIP, VAC and NOTAM.") +
       `<div class="wrap"><section class="cta-card"><h2>Fly with us in the beta</h2><p>Want to try Downwind before the launch? Write to <a href="mailto:${MAIL.hello}?subject=Downwind%20beta">${MAIL.hello}</a> or read <a href="/beta/">how the TestFlight beta works</a>.</p></section></div>`,
   }),
@@ -109,6 +113,7 @@ const home = {
       feature("de", "logbook", "Flugbuch", "Aktuell und gültig auf einen Blick.", "Zeiten, Landungen, Nacht und PIC als CSV und druckbares PDF. Die 90-Tage-Regel, deine Ablaufdaten und Erinnerungen, bevor etwas abläuft.") +
       feature("de", "wingmen", "Wingmen & Club", "Teilen mit denen, mit denen du fliegst.", "Flüge sehen nur Wingmen, die du bestätigst. Clubseite, Ausflüge und Fly-ins, Chat – und ein bisschen Sammeln, nie Wettrennen.", true) +
       `</div>` +
+      screens("de", "Ein Blick in die App", [["feed", "Feed – Flüge deiner Wingmen"], ["flight", "Jeder Flug auf der Landeskarte"], ["logbook", "Flugbuch – aktuell & gültig"], ["explore", "Routen und Klassiker entdecken"]]) +
       band("de", "Downwind ist nicht zur Navigation bestimmt. Plane und fliege mit offiziellen Karten, AIP, VAC und NOTAM.") +
       `<div class="wrap"><section class="cta-card"><h2>Flieg mit in der Beta</h2><p>Möchtest du Downwind vor dem Start ausprobieren? Schreib an <a href="mailto:${MAIL.hello}?subject=Downwind%20Beta">${MAIL.hello}</a> oder lies, <a href="/de/beta/">wie die TestFlight-Beta funktioniert</a>.</p></section></div>`,
   }),
