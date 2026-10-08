@@ -1,0 +1,83 @@
+<!doctype html>
+<!-- Downwind live link (Feintuning F9). Static page: publish this folder on any static host (e.g. Cloudflare Pages,
+     Netlify, GitHub Pages) and set its address as VITE_LIVE_URL for the app build. The link looks like
+     https://<host>/live/#t=<secret token>&s=<supabase project ref>; the token never reaches the host's logs (hash). -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Downwind · Live</title>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css">
+<script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
+<style>
+:root{--ink:#12243D;--muted:#5E7390;--line:#E1E9F2;--soft:#EEF5FC;--accent:#1673BD;--warn:#8A5A00}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:#fff;display:flex;flex-direction:column}
+header{padding:12px 16px calc(10px) ;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+header b{font-size:17px}header small{color:var(--muted)}
+#map{flex:1;min-height:300px}
+.panel{padding:12px 16px calc(14px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.big{font-size:18px;font-weight:600}.muted{color:var(--muted);font-size:13px}
+.vals{display:flex;gap:16px;flex-wrap:wrap;font-family:ui-monospace,Menlo,monospace}
+.note{background:#FFF4D6;color:#4A3800;border:1px solid #E3B440;border-radius:8px;padding:8px 10px;font-size:13px}
+.ended{padding:40px 20px;text-align:center}
+</style>
+</head>
+<body>
+<header><svg width="18" height="28" viewBox="350 200 410 640" aria-hidden="true"><g transform="translate(108 -13)"><line x1="330" y1="230" x2="330" y2="820" stroke="#12243D" stroke-width="30" stroke-linecap="round"/><line x1="250" y1="820" x2="410" y2="820" stroke="#12243D" stroke-width="30" stroke-linecap="round"/><polygon points="350,262 483,306.8 393,430.6 350,438" fill="#1673BD"/><polygon points="483,306.8 537.3,410.7 424.7,475.7 393,430.6" fill="#A6DCFB"/><polygon points="537.3,410.7 570.8,490.7 477.2,544.7 424.7,475.7" fill="#1673BD"/><polygon points="570.8,490.7 603.8,571 530.2,613.5 477.2,544.7" fill="#A6DCFB"/><polygon points="603.8,571 636.8,651.2 583.2,682.2 530.2,613.5" fill="#1673BD"/><rect x="330" y="252" width="24" height="196" rx="10" fill="#12243D"/></g></svg>
+  <div><b id="title">Downwind</b><br><small id="sub"></small></div></header>
+<div id="map"></div>
+<div class="panel">
+  <div class="big" id="status">…</div>
+  <div class="vals" id="vals"></div>
+  <div class="note" id="note"></div>
+  <div class="muted">© swisstopo · Downwind is not for navigation.</div>
+</div>
+<script>
+const L={
+  en:{live:"{name} is flying",landed:"Landed{at} at {time}",ended:"This live link has ended.",none:"No position yet – the pilot has not taken off or has no mobile coverage.",last:"Last position {time} ({ago})",ago:"{n} min ago",note:"Live position depends on mobile coverage and may be delayed or missing. This is not a flight-following or alert service.",from:"from {icao}",bad:"This link is not valid."},
+  de:{live:"{name} fliegt",landed:"Gelandet{at} um {time}",ended:"Dieser Live-Link ist abgelaufen.",none:"Noch keine Position – der Pilot ist noch nicht gestartet oder hat keinen Mobilempfang.",last:"Letzte Position {time} ({ago})",ago:"vor {n} Min.",note:"Die Live-Position hängt vom Mobilempfang ab und kann verzögert sein oder fehlen. Dies ist kein Flugverfolgungs- oder Alarmdienst.",from:"ab {icao}",bad:"Dieser Link ist ungültig."},
+  fr:{live:"{name} est en vol",landed:"Atterri{at} à {time}",ended:"Ce lien en direct a expiré.",none:"Pas encore de position – le pilote n'a pas encore décollé ou n'a pas de réseau mobile.",last:"Dernière position {time} ({ago})",ago:"il y a {n} min",note:"La position en direct dépend du réseau mobile et peut être retardée ou manquer. Ce n'est pas un service de suivi de vol ni d'alerte.",from:"depuis {icao}",bad:"Ce lien n'est pas valable."},
+  it:{live:"{name} sta volando",landed:"Atterrato{at} alle {time}",ended:"Questo link live è scaduto.",none:"Ancora nessuna posizione – il pilota non è ancora decollato o non ha copertura di rete.",last:"Ultima posizione {time} ({ago})",ago:"{n} min fa",note:"La posizione live dipende dalla copertura di rete e può essere in ritardo o mancare. Non è un servizio di sorveglianza del volo né di allarme.",from:"da {icao}",bad:"Questo link non è valido."},
+  es:{live:"{name} está volando",landed:"Aterrizó{at} a las {time}",ended:"Este enlace en directo ha terminado.",none:"Aún no hay posición: el piloto no ha despegado o no tiene cobertura móvil.",last:"Última posición {time} ({ago})",ago:"hace {n} min",note:"La posición en directo depende de la cobertura móvil y puede llegar con retraso o faltar. No es un servicio de seguimiento de vuelos ni de alerta.",from:"desde {icao}",bad:"Este enlace no es válido."}};
+const lang=(navigator.language||"en").slice(0,2),T=L[lang]||L.en,f=(s,p)=>s.replace(/\{(\w+)\}/g,(m,k)=>p[k]??"");
+document.getElementById("note").textContent=T.note;
+const h=new URLSearchParams(location.hash.slice(1)),token=h.get("t")||"",ref=h.get("s")||"";
+const api=h.get("api")||(ref?`https://${ref}.supabase.co/functions/v1/live`:"");
+const $=id=>document.getElementById(id);
+const hm=ms=>new Date(ms).toLocaleTimeString(undefined,{hour:"2-digit",minute:"2-digit",hourCycle:"h23"});
+let map,fitted=false,marker;
+function initMap(){
+  map=new maplibregl.Map({container:"map",center:[8.2,46.8],zoom:7,attributionControl:{compact:true},
+    style:{version:8,sources:{lk:{type:"raster",tiles:["https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg"],tileSize:256,maxzoom:18,attribution:"© swisstopo"}},
+      layers:[{id:"bg",type:"background",paint:{"background-color":"#F3F6F9"}},{id:"lk",type:"raster",source:"lk"}]}});
+  map.on("load",()=>{map.addSource("trk",{type:"geojson",data:{type:"FeatureCollection",features:[]}});
+    map.addLayer({id:"halo",type:"line",source:"trk",paint:{"line-color":"#fff","line-width":7}});
+    map.addLayer({id:"trk",type:"line",source:"trk",layout:{"line-join":"round","line-cap":"round"},paint:{"line-color":"#1673BD","line-width":3.6}});load()});
+}
+async function load(){
+  if(!token||!api){$("status").textContent=T.bad;return}
+  let d;try{d=await(await fetch(`${api}?t=${encodeURIComponent(token)}`,{cache:"no-store"})).json()}catch(e){setTimeout(load,20000);return}
+  if(d.error&&!d.ended){$("status").textContent=T.bad;return}
+  if(d.ended&&!d.points){$("status").textContent=T.ended;$("vals").textContent="";return}
+  $("title").textContent=d.pilot||"Downwind";$("sub").textContent=d.from?f(T.from,{icao:d.from}):"";
+  const pts=d.points||[];
+  if(!pts.length){$("status").textContent=T.none}
+  else{
+    map.getSource("trk").setData({type:"Feature",geometry:{type:"LineString",coordinates:pts.map(p=>[p[1],p[0]])}});
+    const p=pts[pts.length-1],ago=Math.max(0,Math.round((Date.now()-p[3])/6e4));
+    if(!marker){const el=document.createElement("div");el.style.cssText="width:18px;height:18px;border-radius:50%;background:#1673BD;border:3px solid #fff;box-shadow:0 2px 8px rgba(10,46,102,.4)";marker=new maplibregl.Marker({element:el}).setLngLat([p[1],p[0]]).addTo(map)}
+    else marker.setLngLat([p[1],p[0]]);
+    if(!fitted){fitted=true;const b=new maplibregl.LngLatBounds();pts.forEach(q=>b.extend([q[1],q[0]]));map.fitBounds(b,{padding:50,maxZoom:12,duration:0})}
+    $("status").textContent=d.landed_at?f(T.landed,{at:d.to?" "+d.to:"",time:hm(Date.parse(d.landed_at))}):f(T.live,{name:d.pilot||"Pilot"});
+    $("vals").innerHTML="";const v=[f(T.last,{time:hm(p[3]),ago:f(T.ago,{n:ago})}),p[2]!=null?p[2]+" ft":null,p[4]!=null?p[4]+" kt":null].filter(Boolean);
+    for(const s of v){const sp=document.createElement("span");sp.textContent=s;$("vals").appendChild(sp)}
+  }
+  if(!d.ended)setTimeout(load,20000);
+}
+initMap();
+</script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<!-- Downwind souvenir card (N4). Static page: publish it together with web/live on a static host and set its address as
+     VITE_SOUVENIR_URL for the app build. Link: https://<host>/souvenir/#t=<token>&s=<supabase project ref>
+     (the token stays in the hash, it never reaches the host's logs). -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Downwind · Souvenir</title>
+<style>
+:root{--ink:#12243D;--muted:#5E7390;--line:#E1E9F2;--soft:#EEF5FC;--accent:#1673BD}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:linear-gradient(#CFE8FB,#EAF4FC);min-height:100vh;display:flex;justify-content:center;padding:20px 16px}
+.card{width:min(520px,100%);background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 12px 40px rgba(18,36,61,.15)}
+.head{background:linear-gradient(90deg,#2B8BE0,#5BB4F5);color:#fff;padding:20px 22px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.head b{font-size:30px;font-weight:800;letter-spacing:-.01em}.head small{display:block;text-align:right;opacity:.9;font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.pad{padding:18px 22px;display:flex;flex-direction:column;gap:14px}
+.lbl{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.pax{font-size:34px;font-weight:800;line-height:1.1}
+.route{display:flex;justify-content:space-between;align-items:baseline;font-size:44px;font-weight:800}.route span{color:var(--accent);font-size:28px}
+svg.map{width:100%;height:auto;background:var(--soft);border-radius:16px}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.facts b{display:block;font-size:20px;overflow-wrap:anywhere}
+.photos{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px}.photos img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px}
+.foot{border-top:1px dashed var(--line);padding:14px 22px;font-size:12.5px;color:var(--muted);text-align:center}
+.foot a{color:var(--accent);font-weight:600;text-decoration:none}
+.ended{padding:40px 22px;text-align:center}
+</style>
+</head>
+<body>
+<div class="card" id="card"><div class="ended">Loading …</div></div>
+<script>
+const h=new URLSearchParams(location.hash.slice(1)),token=h.get("t")||"",ref=h.get("s")||"";
+const api=h.get("api")||(ref?`https://${ref}.supabase.co/functions/v1/souvenir`:"");
+const APP_URL="https://apps.apple.com/app/downwind";   // set when the app is in the App Store
+const lang=(navigator.language||"en").slice(0,2);
+const L={en:{passenger:"Passenger",aircraft:"Aircraft",time:"Flight time",alt:"Max. altitude",ended:"This souvenir link is no longer available.",made:"Made with Downwind",nav:"Souvenir – not a travel document. Downwind is not for navigation."},
+ de:{passenger:"Passagier",aircraft:"Flugzeug",time:"Flugzeit",alt:"Max. Höhe",ended:"Dieser Erinnerungs-Link ist nicht mehr verfügbar.",made:"Erstellt mit Downwind",nav:"Erinnerung – kein Reisedokument. Downwind ist nicht zur Navigation bestimmt."},
+ fr:{passenger:"Passager",aircraft:"Avion",time:"Temps de vol",alt:"Altitude max.",ended:"Ce lien souvenir n’est plus disponible.",made:"Créé avec Downwind",nav:"Souvenir – pas un titre de transport. Downwind n’est pas un outil de navigation."},
+ it:{passenger:"Passeggero",aircraft:"Aereo",time:"Tempo di volo",alt:"Quota max.",ended:"Questo link ricordo non è più disponibile.",made:"Creato con Downwind",nav:"Ricordo – non un documento di viaggio. Downwind non è per la navigazione."},
+ es:{passenger:"Pasajero",aircraft:"Aeronave",time:"Tiempo de vuelo",alt:"Altitud máx.",ended:"Este enlace de recuerdo ya no está disponible.",made:"Hecho con Downwind",nav:"Recuerdo, no es un documento de viaje. Downwind no es para navegación."}}[lang]||null;
+const T=L||{passenger:"Passenger",aircraft:"Aircraft",time:"Flight time",alt:"Max. altitude",ended:"This souvenir link is no longer available.",made:"Made with Downwind",nav:"Souvenir – not a travel document. Downwind is not for navigation."};
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function track(pts){
+  if(!pts||pts.length<2)return"";
+  const la=pts.map(p=>p[0]),lo=pts.map(p=>p[1]),mid=(Math.min(...la)+Math.max(...la))/2,c=Math.cos(mid*Math.PI/180);
+  const x0=Math.min(...lo)*c,x1=Math.max(...lo)*c,y0=Math.min(...la),y1=Math.max(...la),W=480,H=280,pad=24;
+  const s=Math.min((W-2*pad)/Math.max(1e-6,x1-x0),(H-2*pad)/Math.max(1e-6,y1-y0)),ox=(W-(x1-x0)*s)/2,oy=(H-(y1-y0)*s)/2;
+  const P=pts.map(p=>`${(ox+(p[1]*c-x0)*s).toFixed(1)},${(H-oy-(p[0]-y0)*s).toFixed(1)}`).join(" ");
+  return`<svg class="map" viewBox="0 0 ${W} ${H}" aria-hidden="true"><polyline points="${P}" fill="none" stroke="#fff" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/><polyline points="${P}" fill="none" stroke="#1673BD" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/></svg>`;
+}
+(async()=>{
+  const el=document.getElementById("card");
+  if(!token||!api){el.innerHTML=`<div class="ended">${esc(T.ended)}</div>`;return}
+  let d;try{const r=await fetch(`${api}?t=${encodeURIComponent(token)}`,{cache:"no-store"});d=await r.json();if(!r.ok)throw 0}catch(e){el.innerHTML=`<div class="ended">${esc(T.ended)}</div>`;return}
+  const dt=d.date?new Date(d.date).toLocaleDateString(navigator.language,{day:"numeric",month:"long",year:"numeric"}):"";
+  const block=d.block_min!=null?`${Math.floor(d.block_min/60)}:${String(d.block_min%60).padStart(2,"0")} h`:"–";
+  el.innerHTML=`<div class="head"><b>${esc(d.airline)}</b><small>Souvenir<br>${esc(dt)}</small></div>
+    <div class="pad"><div><div class="lbl">${esc(T.passenger)}</div><div class="pax">${esc(d.passenger)}</div></div>
+      <div class="route"><b>${esc(d.from||"—")}</b><span>✈</span><b>${esc(d.to||"—")}</b></div>
+      ${track(d.track)}
+      <div class="facts"><div><span class="lbl">${esc(T.aircraft)}</span><b>${esc(d.aircraft||"–")}</b></div><div><span class="lbl">${esc(T.time)}</span><b>${esc(block)}</b></div><div><span class="lbl">${esc(T.alt)}</span><b>${d.max_alt_ft?esc(Number(d.max_alt_ft).toLocaleString(navigator.language))+" ft":"–"}</b></div></div>
+      ${(d.photos||[]).length?`<div class="photos">${d.photos.map(u=>`<img alt="" src="${esc(u)}">`).join("")}</div>`:""}</div>
+    <div class="foot"><a href="${APP_URL}" rel="noopener">${esc(T.made)}</a><br>${esc(T.nav)}</div>`;
+})();
+</script>
+</body>
+</html>
