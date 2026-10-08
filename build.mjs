@@ -15,7 +15,7 @@ const SIGNUP = {
     first: "First name", last: "Last name", email: "E-mail", emailHint: "Ideally the e-mail of your Apple ID – the TestFlight invitation goes there.",
     source: "How did you hear about Downwind?", choose: "Please choose", opts: [["instagram", "Instagram"], ["friends", "Friends / pilot colleagues"], ["airfield", "At the airfield"], ["club", "Club / flying group"], ["search", "Search (Google etc.)"], ["other", "Other"]],
     note: "Tell us more (optional)", notePh: "e.g. what you fly, where you are based, what you expect from Downwind",
-    consent: "I agree that Downwind stores these details to invite me to the beta.", privacy: "Privacy policy",
+    consent: "I agree that Downwind stores these details to invite me to the beta, and I accept the", termsLink: "beta terms", privacy: "Privacy policy",
     send: "Sign up", sending: "Sending …", cancel: "Close",
     okTitle: "Thank you!", ok: "We will invite you by e-mail via TestFlight in the next days. Tip: install <b>TestFlight</b> from the App Store already.",
     guide: "Tester guide (PDF)", err: "That did not work. Please try again or write to", errBusy: "Many sign-ups right now – please try again in a few minutes or write to" },
@@ -23,12 +23,12 @@ const SIGNUP = {
     first: "Vorname", last: "Nachname", email: "E-Mail", emailHint: "Am besten die E-Mail deiner Apple-ID – dorthin kommt die TestFlight-Einladung.",
     source: "Wie bist du auf Downwind gekommen?", choose: "Bitte wählen", opts: [["instagram", "Instagram"], ["friends", "Freunde / Fliegerkollegen"], ["airfield", "Am Flugplatz"], ["club", "Club / Fliegergruppe"], ["search", "Suche (Google usw.)"], ["other", "Anderes"]],
     note: "Erzähl uns mehr (freiwillig)", notePh: "z. B. was du fliegst, wo du stationiert bist, was du dir von Downwind wünschst",
-    consent: "Ich bin einverstanden, dass Downwind diese Angaben speichert, um mich zur Beta einzuladen.", privacy: "Datenschutz",
+    consent: "Ich bin einverstanden, dass Downwind diese Angaben speichert, um mich zur Beta einzuladen, und akzeptiere die", termsLink: "Beta-Bedingungen", privacy: "Datenschutz",
     send: "Anmelden", sending: "Wird gesendet …", cancel: "Schliessen",
     okTitle: "Danke!", ok: "Wir laden dich in den nächsten Tagen per E-Mail über TestFlight ein. Tipp: Installiere schon mal <b>TestFlight</b> aus dem App Store.",
     guide: "Testerheft (PDF)", err: "Das hat nicht geklappt. Versuch es nochmals oder schreib an", errBusy: "Gerade melden sich viele an – versuch es in ein paar Minuten nochmals oder schreib an" },
 };
-const signupDialog = lang => { const t = SIGNUP[lang], pv = lang === "de" ? "/de/privacy/" : "/privacy/";
+const signupDialog = lang => { const t = SIGNUP[lang], pv = lang === "de" ? "/de/privacy/" : "/privacy/", tv = lang === "de" ? "/de/terms/" : "/terms/";
   return `<dialog class="signup" id="signup" aria-labelledby="signupTitle" data-url="${SB.url}" data-key="${SB.anon}" data-lang="${lang}">
 <form method="dialog" class="signup-form" novalidate>
   <button class="signup-x" value="cancel" aria-label="${t.cancel}" formnovalidate>×</button>
@@ -40,7 +40,7 @@ const signupDialog = lang => { const t = SIGNUP[lang], pv = lang === "de" ? "/de
   <label>${t.source}<select name="source" required><option value="">${t.choose}</option>${t.opts.map(([v, l]) => `<option value="${v}">${l}</option>`).join("")}</select></label>
   <label>${t.note}<textarea name="note" rows="3" maxlength="1000" placeholder="${t.notePh}"></textarea></label>
   <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
-  <label class="check"><input type="checkbox" name="consent" required> <span>${t.consent} <a href="${pv}" target="_blank" rel="noopener">${t.privacy}</a></span></label>
+  <label class="check"><input type="checkbox" name="consent" required> <span>${t.consent} <a href="${tv}" target="_blank" rel="noopener">${t.termsLink}</a>. <a href="${pv}" target="_blank" rel="noopener">${t.privacy}</a></span></label>
   <p class="signup-err" role="alert" hidden data-err="${t.err}" data-busy="${t.errBusy}"></p>
   <button class="btn" type="submit" data-sending="${t.sending}">${t.send}</button>
   </div>
@@ -52,12 +52,12 @@ const signupDialog = lang => { const t = SIGNUP[lang], pv = lang === "de" ? "/de
 const T = {
   en: {
     nav: { home: "Home", beta: "Beta", support: "Support", privacy: "Privacy" }, other: "Deutsch",
-    foot: { nav: "Downwind is not for navigation.", privacy: "Privacy", support: "Support", imprint: "Imprint", made: "Made in Switzerland" },
+    foot: { nav: "Downwind is not for navigation.", privacy: "Privacy", terms: "Beta terms", support: "Support", imprint: "Imprint", made: "Made in Switzerland" },
     skip: "Skip to content",
   },
   de: {
     nav: { home: "Start", beta: "Beta", support: "Hilfe", privacy: "Datenschutz" }, other: "English",
-    foot: { nav: "Downwind ist nicht zur Navigation bestimmt.", privacy: "Datenschutz", support: "Hilfe", imprint: "Impressum", made: "Gemacht in der Schweiz" },
+    foot: { nav: "Downwind ist nicht zur Navigation bestimmt.", privacy: "Datenschutz", terms: "Beta-Bedingungen", support: "Hilfe", imprint: "Impressum", made: "Gemacht in der Schweiz" },
     skip: "Zum Inhalt",
   },
 };
@@ -100,7 +100,7 @@ ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" hr
 <main id="main">
 ${body}
 </main>
-<footer class="foot"><div class="wrap"><b>${t.foot.nav}</b><a href="${url(lang, "privacy")}">${t.foot.privacy}</a><a href="${url(lang, "support")}">${t.foot.support}</a><a href="${url(lang, "imprint")}">${t.foot.imprint}</a><span>© 2026 Downwind · ${t.foot.made}</span></div></footer>
+<footer class="foot"><div class="wrap"><b>${t.foot.nav}</b><a href="${url(lang, "privacy")}">${t.foot.privacy}</a><a href="${url(lang, "terms")}">${t.foot.terms}</a><a href="${url(lang, "support")}">${t.foot.support}</a><a href="${url(lang, "imprint")}">${t.foot.imprint}</a><span>© 2026 Downwind · ${t.foot.made}</span></div></footer>
 ${signupDialog(lang)}
 </body>
 </html>
@@ -176,7 +176,7 @@ const beta = {
 <ul><li>In Downwind: <b>Settings → Help &amp; legal → Send feedback</b> (text and an optional screenshot).</li>
 <li>Or take a screenshot and choose <b>Share Beta Feedback</b> in the share sheet, or open TestFlight → Downwind → <b>Send Beta Feedback</b>.</li>
 <li>Or write to <a href="mailto:${MAIL.hello}">${MAIL.hello}</a>.</li></ul>
-<div class="note">Beta versions can contain errors. Downwind is not for navigation – please keep your official logbook as well. The traffic circuits in the app are not yet verified by the airfields; always use the official VAC.</div></div>`,
+<div class="note">Beta versions can contain errors. Downwind is not for navigation – please keep your official logbook as well. The traffic circuits in the app are not yet verified by the airfields; always use the official VAC. <a href="/terms/">Beta terms</a></div></div>`,
   }),
   de: () => ({
     title: "Downwind Beta – TestFlight", desc: "So machst du mit Apple TestFlight bei der Downwind-Beta mit.",
@@ -194,7 +194,7 @@ const beta = {
 <ul><li>In Downwind: <b>Einstellungen → Hilfe &amp; Rechtliches → Feedback senden</b> (Text und optional ein Bildschirmfoto).</li>
 <li>Oder ein Bildschirmfoto machen und im Teilen-Menü <b>Beta-Feedback teilen</b> wählen, oder TestFlight → Downwind → <b>Beta-Feedback senden</b>.</li>
 <li>Oder schreib an <a href="mailto:${MAIL.hello}">${MAIL.hello}</a>.</li></ul>
-<div class="note">Beta-Versionen können Fehler enthalten. Downwind ist nicht zur Navigation bestimmt – führe bitte dein offizielles Flugbuch weiter. Die Platzrunden in der App sind noch nicht von den Flugplätzen geprüft; massgebend ist immer die offizielle VAC.</div></div>`,
+<div class="note">Beta-Versionen können Fehler enthalten. Downwind ist nicht zur Navigation bestimmt – führe bitte dein offizielles Flugbuch weiter. Die Platzrunden in der App sind noch nicht von den Flugplätzen geprüft; massgebend ist immer die offizielle VAC. <a href="/de/terms/">Beta-Bedingungen</a></div></div>`,
   }),
 };
 
@@ -438,10 +438,50 @@ const notFound = {
   en: () => ({ title: "Page not found – Downwind", desc: "Page not found", body: `<div class="wrap prose"><h1>Page not found</h1><p>This page does not exist (any more). <a href="/">Back to the start page</a> · <a href="/de/">Zur deutschen Startseite</a></p></div>` }),
 };
 
+
+// ---------- beta terms (draft wording, to be checked by a lawyer before the App Store launch) ----------
+const TERMS_UPDATED = { en: "8 October 2026", de: "8. Oktober 2026" };
+const terms = {
+  en: () => ({
+    title: "Beta terms – Downwind", desc: "Terms for taking part in the Downwind beta on TestFlight.",
+    body: `<div class="wrap prose"><h1>Beta terms</h1>
+<p class="muted">Last updated: ${TERMS_UPDATED.en} · Version 1.0</p>
+<p>These terms apply to taking part in the beta of the Downwind app (Apple TestFlight), provided by Christoph Umbricht, Untersiggenthal, Switzerland («Downwind», «we»). By signing up for the beta or using a beta version you accept them. Our <a href="/privacy/">privacy policy</a> applies as well.</p>
+<h2>1. Beta software</h2><p>Beta versions are test versions. They can contain errors, crash or show wrong values. Features can change or disappear without notice.</p>
+<h2>2. Not for navigation – the pilot in command decides</h2><p>Downwind is <b>not for navigation and not for flight planning</b>. Maps, traffic circuits (not verified by the airfields), routes, weather and the 90-day indication are for information only. Plan and fly with official charts, AIP, VAC and NOTAM. The responsibility for every flight stays with the pilot in command.</p>
+<h2>3. Safety</h2><p>Operate the app before taxi and after shutdown only – never in critical phases of flight. Never fly lower, faster, longer or in worse weather because of Downwind, its challenges or routes.</p>
+<h2>4. Your logbook and your data</h2><p>Please keep your <b>official logbook</b>; Downwind does not replace it during the beta. In rare cases data can be lost during the beta – export your logbook regularly (Settings → Data). How we handle personal data is described in the <a href="/privacy/">privacy policy</a>.</p>
+<h2>5. Costs and Pro</h2><p>The beta is free. As a thank you, beta testers get Downwind Pro until the date shown in the app. Pro never renews automatically and nothing becomes payable without your active purchase in the App Store; prices after the launch are announced in advance.</p>
+<h2>6. Feedback</h2><p>We are grateful for feedback. You allow us to use your suggestions to improve Downwind, free of charge and without an obligation to implement them.</p>
+<h2>7. Content and behaviour</h2><p>You are responsible for what you post (flights, photos, comments, messages) and need the rights to it; share photos of other people only with their consent. No unlawful, offensive or misleading content. We may hide content and block accounts that break these rules.</p>
+<h2>8. End of the beta</h2><p>TestFlight versions expire after 90 days. We can end the beta or your participation at any time. You can leave at any time and delete your account in the app (Settings → Account).</p>
+<h2>9. Liability</h2><p>Downwind is provided «as is», without warranty of availability or accuracy. Liability is excluded as far as the law permits; this does not apply to intent or gross negligence (Art. 100 Swiss Code of Obligations) or to mandatory consumer law.</p>
+<h2>10. Law and place of jurisdiction</h2><p>Swiss law applies. Place of jurisdiction is Baden (canton of Aargau), unless a mandatory place of jurisdiction applies.</p>
+<p>Questions: <a href="mailto:${MAIL.hello}">${MAIL.hello}</a></p></div>`,
+  }),
+  de: () => ({
+    title: "Beta-Bedingungen – Downwind", desc: "Bedingungen für die Teilnahme an der Downwind-Beta über TestFlight.",
+    body: `<div class="wrap prose"><h1>Beta-Bedingungen</h1>
+<p class="muted">Stand: ${TERMS_UPDATED.de} · Version 1.0</p>
+<p>Diese Bedingungen gelten für die Teilnahme an der Beta der App Downwind (Apple TestFlight), angeboten von Christoph Umbricht, Untersiggenthal («Downwind», «wir»). Mit der Anmeldung zur Beta oder der Nutzung einer Beta-Version akzeptierst du sie. Zusätzlich gilt unsere <a href="/de/privacy/">Datenschutzerklärung</a>.</p>
+<h2>1. Beta-Software</h2><p>Beta-Versionen sind Testversionen. Sie können Fehler enthalten, abstürzen oder falsche Werte anzeigen. Funktionen können sich ohne Ankündigung ändern oder wegfallen.</p>
+<h2>2. Nicht zur Navigation – der PIC entscheidet</h2><p>Downwind ist <b>nicht zur Navigation und nicht zur Flugvorbereitung</b> bestimmt. Karten, Platzrunden (nicht von den Flugplätzen geprüft), Routen, Wetter und die 90-Tage-Anzeige dienen nur zur Information. Plane und fliege mit offiziellen Karten, AIP, VAC und NOTAM. Die Verantwortung für jeden Flug liegt beim verantwortlichen Piloten (PIC).</p>
+<h2>3. Sicherheit</h2><p>Bediene die App nur vor dem Rollen und nach dem Abstellen – nie in kritischen Flugphasen. Fliege wegen Downwind, seiner Challenges oder Routen nie tiefer, schneller, länger oder bei schlechterem Wetter.</p>
+<h2>4. Dein Flugbuch und deine Daten</h2><p>Führe bitte dein <b>offizielles Flugbuch</b> weiter; Downwind ersetzt es während der Beta nicht. In seltenen Fällen können während der Beta Daten verloren gehen – exportiere dein Flugbuch regelmässig (Einstellungen → Daten). Wie wir mit Personendaten umgehen, steht in der <a href="/de/privacy/">Datenschutzerklärung</a>.</p>
+<h2>5. Kosten und Pro</h2><p>Die Beta ist gratis. Als Dankeschön erhalten Beta-Testerinnen und -Tester Downwind Pro bis zu dem Datum, das in der App angezeigt wird. Pro verlängert sich nie automatisch, und ohne deinen aktiven Kauf im App Store wird nichts kostenpflichtig; Preise nach dem Start kündigen wir vorher an.</p>
+<h2>6. Feedback</h2><p>Wir freuen uns über Rückmeldungen. Du erlaubst uns, deine Vorschläge kostenlos zur Verbesserung von Downwind zu verwenden – ohne Pflicht, sie umzusetzen.</p>
+<h2>7. Inhalte und Verhalten</h2><p>Du bist verantwortlich für das, was du teilst (Flüge, Fotos, Kommentare, Nachrichten), und brauchst die Rechte daran; Fotos von anderen Personen nur mit deren Einverständnis. Keine rechtswidrigen, beleidigenden oder irreführenden Inhalte. Wir dürfen Inhalte ausblenden und Konten sperren, die gegen diese Regeln verstossen.</p>
+<h2>8. Ende der Beta</h2><p>TestFlight-Versionen laufen nach 90 Tagen ab. Wir können die Beta oder deine Teilnahme jederzeit beenden. Du kannst jederzeit aussteigen und dein Konto in der App löschen (Einstellungen → Konto).</p>
+<h2>9. Haftung</h2><p>Downwind wird «wie besehen» angeboten, ohne Gewähr für Verfügbarkeit oder Richtigkeit. Die Haftung ist ausgeschlossen, soweit das Gesetz es zulässt; ausgenommen sind Absicht und grobe Fahrlässigkeit (Art. 100 OR) sowie zwingendes Konsumentenrecht.</p>
+<h2>10. Recht und Gerichtsstand</h2><p>Es gilt Schweizer Recht. Gerichtsstand ist Baden (Kanton Aargau), soweit kein zwingender Gerichtsstand gilt.</p>
+<p>Fragen: <a href="mailto:${MAIL.hello}">${MAIL.hello}</a></p></div>`,
+  }),
+};
+
 /* ---------- write ---------- */
 const ROOT = path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1"));
 const out = (rel, html) => { const f = path.join(ROOT, rel); fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, html); };
-const PAGES = { home, beta, support, privacy, imprint };
+const PAGES = { home, beta, terms, support, privacy, imprint };
 const urls = [];
 for (const lang of ["en", "de"]) for (const [name, p] of Object.entries(PAGES)) {
   const slug = name === "home" ? "" : name, c = p[lang]();
