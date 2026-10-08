@@ -8,7 +8,7 @@ const SITE = "https://flydownwind.ch";
 const UPDATED = { en: "8 October 2026", de: "8. Oktober 2026" };
 const POLICY_VERSION = { en: "0.9 (draft)", de: "0.9 (Entwurf)" };
 const MAIL = { hello: "hello@flydownwind.ch" };
-const BETA_LINK = "";   // public TestFlight link, e.g. https://testflight.apple.com/join/XXXXXXXX – empty until the external beta starts
+// beta testers are invited by e-mail only (TestFlight external group, no public link)
 
 const T = {
   en: {
@@ -120,8 +120,9 @@ const beta = {
     body: `<div class="wrap prose"><h1>Join the beta</h1>
 <p>Downwind is tested with <b>TestFlight</b>, Apple's app for beta versions. You need an iPhone with iOS 15 or newer.</p>
 <ol>
+<li>Write to <a href="mailto:${MAIL.hello}?subject=Downwind%20beta">${MAIL.hello}</a> with your name and the e-mail address of your Apple ID. The beta is by invitation – there is no public link.</li>
 <li>Install <b>TestFlight</b> from the App Store (free, by Apple).</li>
-<li>${BETA_LINK ? `Open the invitation link on your iPhone: <a href="${BETA_LINK}">${BETA_LINK}</a>` : `Tap the invitation link. <span class="muted">(The public link follows when the external beta starts – until then write to <a href="mailto:${MAIL.hello}">${MAIL.hello}</a>.)</span>`}</li>
+<li>You get an invitation e-mail from TestFlight. Open it on your iPhone and tap <b>View in TestFlight</b>.</li>
 <li>In TestFlight tap <b>Accept</b> and then <b>Install</b>. Downwind appears on your home screen.</li>
 <li>Updates come through TestFlight; turn on automatic updates there.</li>
 </ol>
@@ -129,15 +130,16 @@ const beta = {
 <ul><li>In Downwind: <b>Settings → Help &amp; legal → Send feedback</b> (text and an optional screenshot).</li>
 <li>Or take a screenshot and choose <b>Share Beta Feedback</b> in the share sheet, or open TestFlight → Downwind → <b>Send Beta Feedback</b>.</li>
 <li>Or write to <a href="mailto:${MAIL.hello}">${MAIL.hello}</a>.</li></ul>
-<div class="note">Beta versions can contain errors. Downwind is not for navigation – please keep your official logbook as well.</div></div>`,
+<div class="note">Beta versions can contain errors. Downwind is not for navigation – please keep your official logbook as well. The traffic circuits in the app are not yet verified by the airfields; always use the official VAC.</div></div>`,
   }),
   de: () => ({
     title: "Downwind Beta – TestFlight", desc: "So machst du mit Apple TestFlight bei der Downwind-Beta mit.",
     body: `<div class="wrap prose"><h1>Bei der Beta mitmachen</h1>
 <p>Downwind wird mit <b>TestFlight</b> getestet, Apples App für Beta-Versionen. Du brauchst ein iPhone mit iOS 15 oder neuer.</p>
 <ol>
+<li>Schreib an <a href="mailto:${MAIL.hello}?subject=Downwind%20Beta">${MAIL.hello}</a> mit deinem Namen und der E-Mail-Adresse deiner Apple-ID. Die Beta läuft nur auf Einladung – es gibt keinen öffentlichen Link.</li>
 <li>Installiere <b>TestFlight</b> aus dem App Store (gratis, von Apple).</li>
-<li>${BETA_LINK ? `Öffne den Einladungslink auf dem iPhone: <a href="${BETA_LINK}">${BETA_LINK}</a>` : `Tippe auf den Einladungslink. <span class="muted">(Der öffentliche Link folgt mit dem Start der externen Beta – bis dahin schreib an <a href="mailto:${MAIL.hello}">${MAIL.hello}</a>.)</span>`}</li>
+<li>Du bekommst eine Einladungs-E-Mail von TestFlight. Öffne sie auf dem iPhone und tippe auf <b>In TestFlight anzeigen</b>.</li>
 <li>Tippe in TestFlight auf <b>Annehmen</b> und dann <b>Installieren</b>. Downwind erscheint auf dem Home-Bildschirm.</li>
 <li>Updates kommen über TestFlight; schalte dort automatische Updates ein.</li>
 </ol>
@@ -145,7 +147,7 @@ const beta = {
 <ul><li>In Downwind: <b>Einstellungen → Hilfe &amp; Rechtliches → Feedback senden</b> (Text und optional ein Bildschirmfoto).</li>
 <li>Oder ein Bildschirmfoto machen und im Teilen-Menü <b>Beta-Feedback teilen</b> wählen, oder TestFlight → Downwind → <b>Beta-Feedback senden</b>.</li>
 <li>Oder schreib an <a href="mailto:${MAIL.hello}">${MAIL.hello}</a>.</li></ul>
-<div class="note">Beta-Versionen können Fehler enthalten. Downwind ist nicht zur Navigation bestimmt – führe bitte dein offizielles Flugbuch weiter.</div></div>`,
+<div class="note">Beta-Versionen können Fehler enthalten. Downwind ist nicht zur Navigation bestimmt – führe bitte dein offizielles Flugbuch weiter. Die Platzrunden in der App sind noch nicht von den Flugplätzen geprüft; massgebend ist immer die offizielle VAC.</div></div>`,
   }),
 };
 
