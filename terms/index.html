@@ -30,7 +30,7 @@
 <main id="main">
 <div class="wrap prose"><h1>Beta terms</h1>
 <p class="muted">Last updated: 8 October 2026 · Version 1.0</p>
-<p>These terms apply to taking part in the beta of the Downwind app (Apple TestFlight), provided by Christoph Umbricht, Untersiggenthal, Switzerland («Downwind», «we»). By signing up for the beta or using a beta version you accept them. Our <a href="/privacy/">privacy policy</a> applies as well.</p>
+<p>These terms apply to taking part in the beta of the Downwind app (Apple TestFlight) and its web version (flydownwind.app), provided by Christoph Umbricht, Untersiggenthal, Switzerland («Downwind», «we»). By signing up for the beta or using a beta version you accept them. Our <a href="/privacy/">privacy policy</a> applies as well.</p>
 <h2>1. Beta software</h2><p>Beta versions are test versions. They can contain errors, crash or show wrong values. Features can change or disappear without notice.</p>
 <h2>2. Not for navigation – the pilot in command decides</h2><p>Downwind is <b>not for navigation and not for flight planning</b>. Maps, traffic circuits (not verified by the airfields), routes, weather and the 90-day indication are for information only. Plan and fly with official charts, AIP, VAC and NOTAM. The responsibility for every flight stays with the pilot in command.</p>
 <h2>3. Safety</h2><p>Operate the app before taxi and after shutdown only – never in critical phases of flight. Never fly lower, faster, longer or in worse weather because of Downwind, its challenges or routes.</p>
@@ -51,6 +51,7 @@
   <h2 id="signupTitle">Join the beta</h2><p class="muted">Downwind is tested on the iPhone with Apple TestFlight. Leave your details and we will invite you by e-mail.</p>
   <div class="two"><label>First name<input name="first" autocomplete="given-name" required maxlength="60"></label>
   <label>Last name<input name="last" autocomplete="family-name" required maxlength="60"></label></div>
+  <label>Your phone<select name="device" required><option value="iphone">iPhone (TestFlight beta)</option><option value="android">Android – web version</option><option value="other">Computer / other – web version</option></select></label>
   <label>E-mail<input name="email" type="email" autocomplete="email" required maxlength="200"><small>Ideally the e-mail of your Apple ID – the TestFlight invitation goes there.</small></label>
   <label>How did you hear about Downwind?<select name="source" required><option value="">Please choose</option><option value="instagram">Instagram</option><option value="friends">Friends / pilot colleagues</option><option value="airfield">At the airfield</option><option value="club">Club / flying group</option><option value="search">Search (Google etc.)</option><option value="other">Other</option></select></label>
   <label>Tell us more (optional)<textarea name="note" rows="3" maxlength="1000" placeholder="e.g. what you fly, where you are based, what you expect from Downwind"></textarea></label>
@@ -59,7 +60,7 @@
   <p class="signup-err" role="alert" hidden data-err="That did not work. Please try again or write to" data-busy="Many sign-ups right now – please try again in a few minutes or write to"></p>
   <button class="btn" type="submit" data-sending="Sending …">Sign up</button>
   </div>
-  <div class="signup-ok" hidden><h2>Thank you!</h2><p>We will invite you by e-mail via TestFlight in the next days. Tip: install <b>TestFlight</b> from the App Store already.</p><p><a class="btn ghost" href="/beta/testerheft.pdf">Tester guide (PDF)</a></p></div>
+  <div class="signup-ok" hidden><h2>Thank you!</h2><p class="ok-ios">We will invite you by e-mail via TestFlight in the next days. Tip: install <b>TestFlight</b> from the App Store already.</p><p class="ok-web" hidden>There is no Android app yet – but you can start right away in the browser: <a href="https://flydownwind.app">flydownwind.app</a> (same account, same wingmen; flights are imported from your EFB app). Tip: «Add to home screen».</p><p><a class="btn ghost" href="/beta/testerheft.pdf">Tester guide (PDF)</a></p></div>
 </form></dialog>
 <script src="/assets/signup.js" defer></script>
 </body>

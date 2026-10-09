@@ -13,19 +13,23 @@ const SB = { url: "https://zjtezzimjqtcvvjkldlk.supabase.co", anon: "eyJhbGciOiJ
 const SIGNUP = {
   en: { title: "Join the beta", intro: "Downwind is tested on the iPhone with Apple TestFlight. Leave your details and we will invite you by e-mail.",
     first: "First name", last: "Last name", email: "E-mail", emailHint: "Ideally the e-mail of your Apple ID – the TestFlight invitation goes there.",
+    device: "Your phone", devOpts: [["iphone", "iPhone (TestFlight beta)"], ["android", "Android – web version"], ["other", "Computer / other – web version"]],
     source: "How did you hear about Downwind?", choose: "Please choose", opts: [["instagram", "Instagram"], ["friends", "Friends / pilot colleagues"], ["airfield", "At the airfield"], ["club", "Club / flying group"], ["search", "Search (Google etc.)"], ["other", "Other"]],
     note: "Tell us more (optional)", notePh: "e.g. what you fly, where you are based, what you expect from Downwind",
     consent: "I agree that Downwind stores these details to invite me to the beta, and I accept the", termsLink: "beta terms", privacy: "Privacy policy",
     send: "Sign up", sending: "Sending …", cancel: "Close",
     okTitle: "Thank you!", ok: "We will invite you by e-mail via TestFlight in the next days. Tip: install <b>TestFlight</b> from the App Store already.",
+    okWeb: "There is no Android app yet – but you can start right away in the browser: <a href=\"https://flydownwind.app\">flydownwind.app</a> (same account, same wingmen; flights are imported from your EFB app). Tip: «Add to home screen».",
     guide: "Tester guide (PDF)", err: "That did not work. Please try again or write to", errBusy: "Many sign-ups right now – please try again in a few minutes or write to" },
   de: { title: "Bei der Beta mitmachen", intro: "Downwind wird auf dem iPhone mit Apple TestFlight getestet. Hinterlass deine Angaben, wir laden dich per E-Mail ein.",
     first: "Vorname", last: "Nachname", email: "E-Mail", emailHint: "Am besten die E-Mail deiner Apple-ID – dorthin kommt die TestFlight-Einladung.",
+    device: "Dein Handy", devOpts: [["iphone", "iPhone (TestFlight-Beta)"], ["android", "Android – Web-Version"], ["other", "Computer / anderes – Web-Version"]],
     source: "Wie bist du auf Downwind gekommen?", choose: "Bitte wählen", opts: [["instagram", "Instagram"], ["friends", "Freunde / Fliegerkollegen"], ["airfield", "Am Flugplatz"], ["club", "Club / Fliegergruppe"], ["search", "Suche (Google usw.)"], ["other", "Anderes"]],
     note: "Erzähl uns mehr (freiwillig)", notePh: "z. B. was du fliegst, wo du stationiert bist, was du dir von Downwind wünschst",
     consent: "Ich bin einverstanden, dass Downwind diese Angaben speichert, um mich zur Beta einzuladen, und akzeptiere die", termsLink: "Beta-Bedingungen", privacy: "Datenschutz",
     send: "Anmelden", sending: "Wird gesendet …", cancel: "Schliessen",
     okTitle: "Danke!", ok: "Wir laden dich in den nächsten Tagen per E-Mail über TestFlight ein. Tipp: Installiere schon mal <b>TestFlight</b> aus dem App Store.",
+    okWeb: "Eine Android-App gibt es noch nicht – aber du kannst gleich im Browser loslegen: <a href=\"https://flydownwind.app\">flydownwind.app</a> (gleiches Konto, gleiche Wingmen; Flüge importierst du aus deiner EFB-App). Tipp: «Zum Startbildschirm hinzufügen».",
     guide: "Testerheft (PDF)", err: "Das hat nicht geklappt. Versuch es nochmals oder schreib an", errBusy: "Gerade melden sich viele an – versuch es in ein paar Minuten nochmals oder schreib an" },
 };
 const signupDialog = lang => { const t = SIGNUP[lang], pv = lang === "de" ? "/de/privacy/" : "/privacy/", tv = lang === "de" ? "/de/terms/" : "/terms/";
@@ -36,6 +40,7 @@ const signupDialog = lang => { const t = SIGNUP[lang], pv = lang === "de" ? "/de
   <h2 id="signupTitle">${t.title}</h2><p class="muted">${t.intro}</p>
   <div class="two"><label>${t.first}<input name="first" autocomplete="given-name" required maxlength="60"></label>
   <label>${t.last}<input name="last" autocomplete="family-name" required maxlength="60"></label></div>
+  <label>${t.device}<select name="device" required>${t.devOpts.map(([v, l]) => `<option value="${v}">${l}</option>`).join("")}</select></label>
   <label>${t.email}<input name="email" type="email" autocomplete="email" required maxlength="200"><small>${t.emailHint}</small></label>
   <label>${t.source}<select name="source" required><option value="">${t.choose}</option>${t.opts.map(([v, l]) => `<option value="${v}">${l}</option>`).join("")}</select></label>
   <label>${t.note}<textarea name="note" rows="3" maxlength="1000" placeholder="${t.notePh}"></textarea></label>
@@ -44,7 +49,7 @@ const signupDialog = lang => { const t = SIGNUP[lang], pv = lang === "de" ? "/de
   <p class="signup-err" role="alert" hidden data-err="${t.err}" data-busy="${t.errBusy}"></p>
   <button class="btn" type="submit" data-sending="${t.sending}">${t.send}</button>
   </div>
-  <div class="signup-ok" hidden><h2>${t.okTitle}</h2><p>${t.ok}</p><p><a class="btn ghost" href="/beta/testerheft.pdf">${t.guide}</a></p></div>
+  <div class="signup-ok" hidden><h2>${t.okTitle}</h2><p class="ok-ios">${t.ok}</p><p class="ok-web" hidden>${t.okWeb}</p><p><a class="btn ghost" href="/beta/testerheft.pdf">${t.guide}</a></p></div>
 </form></dialog>
 <script src="/assets/signup.js" defer></script>`; };
 // beta testers are invited by e-mail only (TestFlight external group, no public link)
@@ -268,6 +273,7 @@ const privacy = {
 <ul><li>No ads, no selling of data, no analytics, no tracking, no cookies on this website.</li>
 <li>Your flights are visible only to the pilots you confirm as wingmen (or only to you).</li>
 <li>Location is used only while a flight is recorded and, with auto-record, to notice that you are near an airfield.</li>
+<li>The web version on flydownwind.app uses the same account and data as the app; it does not record location.</li>
 <li>You can export everything and delete your account in the app at any time.</li></ul>
 
 <h2>3. Data we process</h2>
@@ -357,6 +363,7 @@ const privacy = {
 <ul><li>Keine Werbung, kein Verkauf von Daten, keine Analyse, kein Tracking, keine Cookies auf dieser Website.</li>
 <li>Deine Flüge sehen nur die Piloten, die du als Wingmen bestätigst (oder nur du).</li>
 <li>Der Standort wird nur während der Aufzeichnung eines Flugs verwendet und – mit automatischer Aufzeichnung – um zu merken, dass du bei einem Flugplatz bist.</li>
+<li>Die Web-Version auf flydownwind.app nutzt dasselbe Konto und dieselben Daten wie die App; sie zeichnet keinen Standort auf.</li>
 <li>Du kannst jederzeit alles exportieren und dein Konto in der App löschen.</li></ul>
 
 <h2>3. Welche Daten wir bearbeiten</h2>
@@ -446,7 +453,7 @@ const terms = {
     title: "Beta terms – Downwind", desc: "Terms for taking part in the Downwind beta on TestFlight.",
     body: `<div class="wrap prose"><h1>Beta terms</h1>
 <p class="muted">Last updated: ${TERMS_UPDATED.en} · Version 1.0</p>
-<p>These terms apply to taking part in the beta of the Downwind app (Apple TestFlight), provided by Christoph Umbricht, Untersiggenthal, Switzerland («Downwind», «we»). By signing up for the beta or using a beta version you accept them. Our <a href="/privacy/">privacy policy</a> applies as well.</p>
+<p>These terms apply to taking part in the beta of the Downwind app (Apple TestFlight) and its web version (flydownwind.app), provided by Christoph Umbricht, Untersiggenthal, Switzerland («Downwind», «we»). By signing up for the beta or using a beta version you accept them. Our <a href="/privacy/">privacy policy</a> applies as well.</p>
 <h2>1. Beta software</h2><p>Beta versions are test versions. They can contain errors, crash or show wrong values. Features can change or disappear without notice.</p>
 <h2>2. Not for navigation – the pilot in command decides</h2><p>Downwind is <b>not for navigation and not for flight planning</b>. Maps, traffic circuits (not verified by the airfields), routes, weather and the 90-day indication are for information only. Plan and fly with official charts, AIP, VAC and NOTAM. The responsibility for every flight stays with the pilot in command.</p>
 <h2>3. Safety</h2><p>Operate the app before taxi and after shutdown only – never in critical phases of flight. Never fly lower, faster, longer or in worse weather because of Downwind, its challenges or routes.</p>
@@ -463,7 +470,7 @@ const terms = {
     title: "Beta-Bedingungen – Downwind", desc: "Bedingungen für die Teilnahme an der Downwind-Beta über TestFlight.",
     body: `<div class="wrap prose"><h1>Beta-Bedingungen</h1>
 <p class="muted">Stand: ${TERMS_UPDATED.de} · Version 1.0</p>
-<p>Diese Bedingungen gelten für die Teilnahme an der Beta der App Downwind (Apple TestFlight), angeboten von Christoph Umbricht, Untersiggenthal («Downwind», «wir»). Mit der Anmeldung zur Beta oder der Nutzung einer Beta-Version akzeptierst du sie. Zusätzlich gilt unsere <a href="/de/privacy/">Datenschutzerklärung</a>.</p>
+<p>Diese Bedingungen gelten für die Teilnahme an der Beta der App Downwind (Apple TestFlight) und ihrer Web-Version (flydownwind.app), angeboten von Christoph Umbricht, Untersiggenthal («Downwind», «wir»). Mit der Anmeldung zur Beta oder der Nutzung einer Beta-Version akzeptierst du sie. Zusätzlich gilt unsere <a href="/de/privacy/">Datenschutzerklärung</a>.</p>
 <h2>1. Beta-Software</h2><p>Beta-Versionen sind Testversionen. Sie können Fehler enthalten, abstürzen oder falsche Werte anzeigen. Funktionen können sich ohne Ankündigung ändern oder wegfallen.</p>
 <h2>2. Nicht zur Navigation – der PIC entscheidet</h2><p>Downwind ist <b>nicht zur Navigation und nicht zur Flugvorbereitung</b> bestimmt. Karten, Platzrunden (nicht von den Flugplätzen geprüft), Routen, Wetter und die 90-Tage-Anzeige dienen nur zur Information. Plane und fliege mit offiziellen Karten, AIP, VAC und NOTAM. Die Verantwortung für jeden Flug liegt beim verantwortlichen Piloten (PIC).</p>
 <h2>3. Sicherheit</h2><p>Bediene die App nur vor dem Rollen und nach dem Abstellen – nie in kritischen Flugphasen. Fliege wegen Downwind, seiner Challenges oder Routen nie tiefer, schneller, länger oder bei schlechterem Wetter.</p>

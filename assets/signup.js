@@ -23,7 +23,7 @@
         method: "POST",
         headers: { "Content-Type": "application/json", apikey: dlg.dataset.key, Authorization: "Bearer " + dlg.dataset.key },
         body: JSON.stringify({ p_first: form.first.value.trim(), p_last: form.last.value.trim(), p_email: form.email.value.trim(),
-          p_source: form.source.value, p_note: form.note.value.trim(), p_lang: dlg.dataset.lang })
+          p_source: form.source.value, p_note: form.note.value.trim(), p_lang: dlg.dataset.lang, p_device: form.device.value })
       });
       if (r.ok) {
         const id = await r.json().catch(() => null);   // tell the Downwind team (push to the admins, once per sign-up)
@@ -35,6 +35,10 @@
     } catch { fail(false); }
     btn.disabled = false; btn.textContent = label;
   });
-  function done() { form.querySelector(".signup-body").hidden = true; form.querySelector(".signup-ok").hidden = false; form.reset(); }
+  function done() {   // iPhone → TestFlight invitation follows; Android / computer → web version right away
+    const web = form.device.value !== "iphone";
+    form.querySelector(".ok-ios").hidden = web; form.querySelector(".ok-web").hidden = !web;
+    form.querySelector(".signup-body").hidden = true; form.querySelector(".signup-ok").hidden = false; form.reset();
+  }
   dlg.addEventListener("close", () => { form.querySelector(".signup-body").hidden = false; form.querySelector(".signup-ok").hidden = true; err.hidden = true; });
 })();

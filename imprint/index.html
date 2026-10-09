@@ -41,6 +41,7 @@
   <h2 id="signupTitle">Join the beta</h2><p class="muted">Downwind is tested on the iPhone with Apple TestFlight. Leave your details and we will invite you by e-mail.</p>
   <div class="two"><label>First name<input name="first" autocomplete="given-name" required maxlength="60"></label>
   <label>Last name<input name="last" autocomplete="family-name" required maxlength="60"></label></div>
+  <label>Your phone<select name="device" required><option value="iphone">iPhone (TestFlight beta)</option><option value="android">Android – web version</option><option value="other">Computer / other – web version</option></select></label>
   <label>E-mail<input name="email" type="email" autocomplete="email" required maxlength="200"><small>Ideally the e-mail of your Apple ID – the TestFlight invitation goes there.</small></label>
   <label>How did you hear about Downwind?<select name="source" required><option value="">Please choose</option><option value="instagram">Instagram</option><option value="friends">Friends / pilot colleagues</option><option value="airfield">At the airfield</option><option value="club">Club / flying group</option><option value="search">Search (Google etc.)</option><option value="other">Other</option></select></label>
   <label>Tell us more (optional)<textarea name="note" rows="3" maxlength="1000" placeholder="e.g. what you fly, where you are based, what you expect from Downwind"></textarea></label>
@@ -49,7 +50,7 @@
   <p class="signup-err" role="alert" hidden data-err="That did not work. Please try again or write to" data-busy="Many sign-ups right now – please try again in a few minutes or write to"></p>
   <button class="btn" type="submit" data-sending="Sending …">Sign up</button>
   </div>
-  <div class="signup-ok" hidden><h2>Thank you!</h2><p>We will invite you by e-mail via TestFlight in the next days. Tip: install <b>TestFlight</b> from the App Store already.</p><p><a class="btn ghost" href="/beta/testerheft.pdf">Tester guide (PDF)</a></p></div>
+  <div class="signup-ok" hidden><h2>Thank you!</h2><p class="ok-ios">We will invite you by e-mail via TestFlight in the next days. Tip: install <b>TestFlight</b> from the App Store already.</p><p class="ok-web" hidden>There is no Android app yet – but you can start right away in the browser: <a href="https://flydownwind.app">flydownwind.app</a> (same account, same wingmen; flights are imported from your EFB app). Tip: «Add to home screen».</p><p><a class="btn ghost" href="/beta/testerheft.pdf">Tester guide (PDF)</a></p></div>
 </form></dialog>
 <script src="/assets/signup.js" defer></script>
 </body>
