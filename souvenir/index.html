@@ -26,6 +26,10 @@ svg.map{width:100%;height:auto;background:var(--soft);border-radius:16px}
 .foot{border-top:1px dashed var(--line);padding:14px 22px;font-size:12.5px;color:var(--muted);text-align:center}
 .foot a{color:var(--accent);font-weight:600;text-decoration:none}
 .ended{padding:40px 22px;text-align:center}
+.notes{display:flex;flex-direction:column;gap:8px}.notes blockquote{margin:0;padding:10px 14px;background:var(--soft);border-radius:14px}.notes cite{display:block;font-style:normal;font-weight:700;font-size:12.5px;color:var(--muted);margin-top:4px}
+form.note{display:flex;flex-direction:column;gap:8px}form.note textarea{font:inherit;border:1px solid var(--line);border-radius:12px;padding:10px 12px;min-height:84px;resize:vertical}
+form.note button{align-self:flex-start;border:0;border-radius:999px;padding:10px 18px;font:inherit;font-weight:700;color:#fff;background:linear-gradient(90deg,#2B8BE0,#5BB4F5);cursor:pointer}
+form.note button:disabled{opacity:.6}.small{font-size:12.5px;color:var(--muted)}.msg{font-weight:600}
 </style>
 </head>
 <body>
@@ -35,12 +39,12 @@ const h=new URLSearchParams(location.hash.slice(1)),token=h.get("t")||"",ref=h.g
 const api=h.get("api")||(ref?`https://${ref}.supabase.co/functions/v1/souvenir`:"");
 const APP_URL="https://apps.apple.com/app/downwind";   // set when the app is in the App Store
 const lang=(navigator.language||"en").slice(0,2);
-const L={en:{passenger:"Passenger",aircraft:"Aircraft",time:"Flight time",alt:"Max. altitude",ended:"This souvenir link is no longer available.",made:"Made with Downwind",nav:"Souvenir – not a travel document. Downwind is not for navigation."},
- de:{passenger:"Passagier",aircraft:"Flugzeug",time:"Flugzeit",alt:"Max. Höhe",ended:"Dieser Erinnerungs-Link ist nicht mehr verfügbar.",made:"Erstellt mit Downwind",nav:"Erinnerung – kein Reisedokument. Downwind ist nicht zur Navigation bestimmt."},
- fr:{passenger:"Passager",aircraft:"Avion",time:"Temps de vol",alt:"Altitude max.",ended:"Ce lien souvenir n’est plus disponible.",made:"Créé avec Downwind",nav:"Souvenir – pas un titre de transport. Downwind n’est pas un outil de navigation."},
- it:{passenger:"Passeggero",aircraft:"Aereo",time:"Tempo di volo",alt:"Quota max.",ended:"Questo link ricordo non è più disponibile.",made:"Creato con Downwind",nav:"Ricordo – non un documento di viaggio. Downwind non è per la navigazione."},
- es:{passenger:"Pasajero",aircraft:"Aeronave",time:"Tiempo de vuelo",alt:"Altitud máx.",ended:"Este enlace de recuerdo ya no está disponible.",made:"Hecho con Downwind",nav:"Recuerdo, no es un documento de viaje. Downwind no es para navegación."}}[lang]||null;
-const T=L||{passenger:"Passenger",aircraft:"Aircraft",time:"Flight time",alt:"Max. altitude",ended:"This souvenir link is no longer available.",made:"Made with Downwind",nav:"Souvenir – not a travel document. Downwind is not for navigation."};
+const L={en:{notes:"Notes from passengers",write:"Write a note to the pilot",ph:"e.g. My first Alpine flight – thank you!",send:"Send",sent:"Thank you! Your note was sent to the pilot.",many:"Too many notes – please try again later.",err:"The note could not be sent. Please try again.",who:"Only the pilot sees your note. The pilot may show it on the flight or on this card with your first name.",passenger:"Passenger",aircraft:"Aircraft",time:"Flight time",alt:"Max. altitude",ended:"This souvenir link is no longer available.",made:"Made with Downwind",nav:"Souvenir – not a travel document. Downwind is not for navigation."},
+ de:{notes:"Notizen von Passagieren",write:"Schreib dem Piloten eine Notiz",ph:"z. B. Mein erster Alpenflug – danke!",send:"Senden",sent:"Danke! Deine Notiz ist beim Piloten angekommen.",many:"Zu viele Notizen – bitte später nochmals versuchen.",err:"Die Notiz konnte nicht gesendet werden. Bitte nochmals versuchen.",who:"Nur der Pilot sieht deine Notiz. Er kann sie mit deinem Vornamen beim Flug oder auf dieser Karte zeigen.",passenger:"Passagier",aircraft:"Flugzeug",time:"Flugzeit",alt:"Max. Höhe",ended:"Dieser Erinnerungs-Link ist nicht mehr verfügbar.",made:"Erstellt mit Downwind",nav:"Erinnerung – kein Reisedokument. Downwind ist nicht zur Navigation bestimmt."},
+ fr:{notes:"Mots des passagers",write:"Écrire un mot au pilote",ph:"p. ex. Mon premier vol dans les Alpes – merci !",send:"Envoyer",sent:"Merci ! Ton mot a été envoyé au pilote.",many:"Trop de mots – réessaie plus tard.",err:"Le mot n’a pas pu être envoyé. Réessaie.",who:"Seul le pilote voit ton mot. Il peut l’afficher avec ton prénom sur le vol ou sur cette carte.",passenger:"Passager",aircraft:"Avion",time:"Temps de vol",alt:"Altitude max.",ended:"Ce lien souvenir n’est plus disponible.",made:"Créé avec Downwind",nav:"Souvenir – pas un titre de transport. Downwind n’est pas un outil de navigation."},
+ it:{notes:"Note dei passeggeri",write:"Scrivi una nota al pilota",ph:"ad es. Il mio primo volo sulle Alpi – grazie!",send:"Invia",sent:"Grazie! La tua nota è stata inviata al pilota.",many:"Troppe note – riprova più tardi.",err:"Non è stato possibile inviare la nota. Riprova.",who:"Solo il pilota vede la tua nota. Può mostrarla con il tuo nome sul volo o su questa carta.",passenger:"Passeggero",aircraft:"Aereo",time:"Tempo di volo",alt:"Quota max.",ended:"Questo link ricordo non è più disponibile.",made:"Creato con Downwind",nav:"Ricordo – non un documento di viaggio. Downwind non è per la navigazione."},
+ es:{notes:"Notas de pasajeros",write:"Escribe una nota al piloto",ph:"p. ej. Mi primer vuelo por los Alpes – ¡gracias!",send:"Enviar",sent:"¡Gracias! Tu nota se ha enviado al piloto.",many:"Demasiadas notas – inténtalo más tarde.",err:"No se pudo enviar la nota. Inténtalo de nuevo.",who:"Solo el piloto ve tu nota. Puede mostrarla con tu nombre en el vuelo o en esta tarjeta.",passenger:"Pasajero",aircraft:"Aeronave",time:"Tiempo de vuelo",alt:"Altitud máx.",ended:"Este enlace de recuerdo ya no está disponible.",made:"Hecho con Downwind",nav:"Recuerdo, no es un documento de viaje. Downwind no es para navegación."}}[lang]||null;
+const T=L||{notes:"Notes from passengers",write:"Write a note to the pilot",ph:"e.g. My first Alpine flight – thank you!",send:"Send",sent:"Thank you! Your note was sent to the pilot.",many:"Too many notes – please try again later.",err:"The note could not be sent. Please try again.",who:"Only the pilot sees your note. The pilot may show it on the flight or on this card with your first name.",passenger:"Passenger",aircraft:"Aircraft",time:"Flight time",alt:"Max. altitude",ended:"This souvenir link is no longer available.",made:"Made with Downwind",nav:"Souvenir – not a travel document. Downwind is not for navigation."};
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function track(pts){
   if(!pts||pts.length<2)return"";
@@ -61,8 +65,20 @@ function track(pts){
       <div class="route"><b>${esc(d.from||"—")}</b><span>✈</span><b>${esc(d.to||"—")}</b></div>
       ${track(d.track)}
       <div class="facts"><div><span class="lbl">${esc(T.aircraft)}</span><b>${esc(d.aircraft||"–")}</b></div><div><span class="lbl">${esc(T.time)}</span><b>${esc(block)}</b></div><div><span class="lbl">${esc(T.alt)}</span><b>${d.max_alt_ft?esc(Number(d.max_alt_ft).toLocaleString(navigator.language))+" ft":"–"}</b></div></div>
-      ${(d.photos||[]).length?`<div class="photos">${d.photos.map(u=>`<img alt="" src="${esc(u)}">`).join("")}</div>`:""}</div>
+      ${(d.photos||[]).length?`<div class="photos">${d.photos.map(u=>`<img alt="" src="${esc(u)}">`).join("")}</div>`:""}
+      ${(d.notes||[]).length?`<div><div class="lbl">${esc(T.notes)}</div><div class="notes">${d.notes.map(n=>`<blockquote>${esc(n.text)}<cite>– ${esc(n.name)}</cite></blockquote>`).join("")}</div></div>`:""}
+      <form class="note" id="noteForm"><label class="lbl" for="noteText">${esc(T.write)}</label><textarea id="noteText" maxlength="500" required placeholder="${esc(T.ph)}"></textarea>
+        <button type="submit">${esc(T.send)}</button><span class="small">${esc(T.who)}</span><span class="msg" id="noteMsg" role="status"></span></form></div>
     <div class="foot"><a href="${APP_URL}" rel="noopener">${esc(T.made)}</a><br>${esc(T.nav)}</div>`;
+  // personal note to the pilot (private until the pilot shows it; no ratings)
+  document.getElementById("noteForm").addEventListener("submit",async ev=>{
+    ev.preventDefault();const ta=document.getElementById("noteText"),msg=document.getElementById("noteMsg"),btn=ev.target.querySelector("button"),text=ta.value.trim();
+    if(!text)return;btn.disabled=true;msg.textContent="";
+    try{const r=await fetch(api,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({t:token,text})});
+      if(r.ok){ev.target.innerHTML=`<p class="msg">${esc(T.sent)}</p>`;return}
+      msg.textContent=r.status===429?T.many:T.err}catch(e){msg.textContent=T.err}
+    btn.disabled=false;
+  });
 })();
 </script>
 </body>
