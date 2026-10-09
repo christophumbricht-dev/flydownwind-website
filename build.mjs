@@ -168,7 +168,7 @@ const beta = {
   en: () => ({
     title: "Downwind beta – TestFlight", desc: "How to join the Downwind beta on your iPhone with Apple TestFlight.",
     body: `<div class="wrap prose"><h1>Join the beta</h1>
-<p>Downwind is tested with <b>TestFlight</b>, Apple's app for beta versions. You need an iPhone with iOS 15 or newer.</p>
+<p>Downwind is tested with <b>TestFlight</b>, Apple's app for beta versions. You need an iPhone with iOS 15 or newer. <b>No iPhone?</b> Use the web version <a href="https://flydownwind.app">flydownwind.app</a> (Android, computer) – same account, flights are imported from your EFB app.</p>
 <ol>
 <li><a class="btn" href="mailto:${MAIL.hello}?subject=Downwind%20beta" data-signup>Sign up for the beta</a> – or write to <a href="mailto:${MAIL.hello}?subject=Downwind%20beta">${MAIL.hello}</a> with your name and the e-mail address of your Apple ID. The beta is by invitation – there is no public link.</li>
 <li>Install <b>TestFlight</b> from the App Store (free, by Apple).</li>
@@ -186,7 +186,7 @@ const beta = {
   de: () => ({
     title: "Downwind Beta – TestFlight", desc: "So machst du mit Apple TestFlight bei der Downwind-Beta mit.",
     body: `<div class="wrap prose"><h1>Bei der Beta mitmachen</h1>
-<p>Downwind wird mit <b>TestFlight</b> getestet, Apples App für Beta-Versionen. Du brauchst ein iPhone mit iOS 15 oder neuer.</p>
+<p>Downwind wird mit <b>TestFlight</b> getestet, Apples App für Beta-Versionen. Du brauchst ein iPhone mit iOS 15 oder neuer. <b>Kein iPhone?</b> Nutze die Web-Version <a href="https://flydownwind.app">flydownwind.app</a> (Android, Computer) – gleiches Konto, Flüge importierst du aus deiner EFB-App.</p>
 <ol>
 <li><a class="btn" href="mailto:${MAIL.hello}?subject=Downwind%20Beta" data-signup>Für die Beta anmelden</a> – oder schreib an <a href="mailto:${MAIL.hello}?subject=Downwind%20Beta">${MAIL.hello}</a> mit deinem Namen und der E-Mail-Adresse deiner Apple-ID. Die Beta läuft nur auf Einladung – es gibt keinen öffentlichen Link.</li>
 <li>Installiere <b>TestFlight</b> aus dem App Store (gratis, von Apple).</li>
@@ -217,6 +217,10 @@ ${faq([
   ["How do I delete my account?", "In the app: <b>Settings → Account → Delete account</b>. Your account, flights, tracks, photos, messages and all other data are deleted at once. Export first if you want to keep anything (<b>Settings → Data</b>: CSV, PDF, GPX, JSON)."],
   ["How do I report content or block a pilot?", "Tap <b>Report</b> on a flight, comment, chat message, review or profile. Moderators look at reports within 24 hours. On a pilot's profile you can also <b>Block pilot</b>."],
   ["Who sees my flights?", "Only confirmed wingmen (both of you agreed), passengers you tagged, or only you – you choose per flight. Start and end of the track can be hidden (500 m)."],
+  ["Is there an Android app?", "Not yet – but Downwind runs in the browser: <a href=\"https://flydownwind.app\">flydownwind.app</a> (Android, computer). Same account, same wingmen; in Chrome tap ⋮ → <b>Add to home screen</b>. Automatic recording works only in the iPhone app – record with your EFB app and import the track."],
+  ["I fly as a passenger – can I use Downwind?", "Yes. Choose <b>I fly along as passenger</b> when you start, or the role <b>Passenger</b> for a flight (with the pilot’s name, also when the pilot does not use Downwind). Your passenger flights get their own logbook and count for airfields, sectors and routes – never for a pilot logbook, PIC time or the 90-day rule."],
+  ["Can I log airline flights?", "Yes, just for fun: role <b>Airline flight</b> with flight number and airline. Downwind suggests it by itself for very fast or high flights. Airline flights are only visible to you and count for nothing."],
+  ["I do not know the ICAO code of an airfield.", "Just type the name – e.g. «Birrfeld» or «Bern». Downwind suggests matching airfields and stores the code."],
   ["Can I navigate with Downwind?", "<b>No. Downwind is not for navigation.</b> Traffic circuits and airfield data are shown for information and may be wrong or out of date. Use official charts, AIP, VAC and NOTAM."],
 ])}
 </div>`,
@@ -233,6 +237,10 @@ ${faq([
   ["Wie lösche ich mein Konto?", "In der App: <b>Einstellungen → Konto → Konto löschen</b>. Konto, Flüge, Tracks, Fotos, Nachrichten und alle anderen Daten werden sofort gelöscht. Exportiere vorher, was du behalten willst (<b>Einstellungen → Daten</b>: CSV, PDF, GPX, JSON)."],
   ["Wie melde ich Inhalte oder blockiere einen Piloten?", "Tippe bei einem Flug, Kommentar, einer Chatnachricht, Bewertung oder einem Profil auf <b>Melden</b>. Moderatoren schauen Meldungen innert 24 Stunden an. Im Profil eines Piloten kannst du ihn auch <b>blockieren</b>."],
   ["Wer sieht meine Flüge?", "Nur bestätigte Wingmen (ihr habt beide zugestimmt), markierte Passagiere oder nur du – du wählst pro Flug. Anfang und Ende des Tracks können ausgeblendet werden (500 m)."],
+  ["Gibt es eine Android-App?", "Noch nicht – aber Downwind läuft im Browser: <a href=\"https://flydownwind.app\">flydownwind.app</a> (Android, Computer). Gleiches Konto, gleiche Wingmen; in Chrome ⋮ → <b>Zum Startbildschirm hinzufügen</b>. Die automatische Aufzeichnung gibt es nur in der iPhone-App – zeichne mit deiner EFB-App auf und importiere den Track."],
+  ["Ich fliege als Passagier mit – kann ich Downwind nutzen?", "Ja. Wähle beim Start <b>Ich fliege als Passagier/in mit</b> oder bei einem Flug die Rolle <b>Passagier</b> (mit dem Namen des Piloten, auch wenn er Downwind nicht nutzt). Deine Passagierflüge bekommen ein eigenes Flugbuch und zählen für Flugplätze, Sektoren und Routen – nie für ein Piloten-Flugbuch, PIC-Zeit oder die 90-Tage-Regel."],
+  ["Kann ich Linienflüge erfassen?", "Ja, zum Spass: Rolle <b>Linienflug</b> mit Flugnummer und Airline. Bei sehr schnellen oder hohen Flügen schlägt Downwind das selbst vor. Linienflüge siehst nur du, und sie zählen nirgends."],
+  ["Ich kenne den ICAO-Code eines Flugplatzes nicht.", "Tippe einfach den Namen – z. B. «Birrfeld» oder «Bern». Downwind schlägt passende Flugplätze vor und speichert den Code."],
   ["Kann ich mit Downwind navigieren?", "<b>Nein. Downwind ist nicht zur Navigation bestimmt.</b> Platzrunden und Flugplatzdaten sind zur Information und können falsch oder veraltet sein. Verwende offizielle Karten, AIP, VAC und NOTAM."],
 ])}
 </div>`,
