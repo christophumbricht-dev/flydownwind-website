@@ -504,6 +504,19 @@ for (const lang of ["en", "de"]) for (const [name, p] of Object.entries(PAGES)) 
   urls.push(SITE + url(lang, slug));
 }
 out("404.html", layout({ lang: "en", page: "404", noindex: true, ...notFound.en() }));
+// sample file for Apple's app review (task apple-demokonto): English only, not in the sitemap
+out("demo/index.html", layout({ lang: "en", page: "demo", noindex: true, title: "Downwind – Sample track",
+  desc: "A sample GPX file to try the track import of Downwind.",
+  body: `<div class="wrap prose"><h1>Sample track</h1>
+<p>A small sample flight to try the track import of Downwind without flying: two traffic circuits at Bern-Belp (LSZB), runway 14.
+It is a synthetic track, not a real flight.</p>
+<p><a class="btn" href="/demo/downwind-sample-circuits.gpx" download>Download the sample GPX</a></p>
+<h2>How to import it on the iPhone</h2>
+<ol><li>Tap <b>Download the sample GPX</b> above. Safari saves the file to <b>Files → Downloads</b>.</li>
+<li>Open Downwind and tap the <b>+</b> button.</li>
+<li>Choose <b>Import track</b>, tap <b>tap to choose a file</b> and pick <b>downwind-sample-circuits.gpx</b> from Downloads.</li>
+<li>Check the flight and save it – it appears in the logbook and on the map.</li></ol>
+<p class="muted">Downwind is a social flight log and is not for navigation.</p></div>` }));
 out("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`);
 out("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(u => `  <url><loc>${u}</loc></url>`).join("\n")}\n</urlset>\n`);
 out("CNAME", "flydownwind.ch\n");
