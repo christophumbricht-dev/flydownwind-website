@@ -5,7 +5,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 const SITE = "https://flydownwind.ch";
-const UPDATED = { en: "8 October 2026", de: "8. Oktober 2026" };
+const UPDATED = { en: "11 October 2026", de: "11. Oktober 2026" };
 const POLICY_VERSION = { en: "0.9 (draft)", de: "0.9 (Entwurf)" };
 const MAIL = { hello: "hello@flydownwind.ch" };
 // beta sign-up form → Supabase function beta_signup() (public anon key, like in the app; the table is readable by admins only)
@@ -142,7 +142,7 @@ const home = {
       `<div class="wrap features">` +
       feature("en", "record", "Auto-record", "Just fly.", "Downwind notices take-off and landing near an airfield and records block times and the track – even with the phone in your pocket. After landing you review and share.") +
       feature("en", "map", "Swiss national map", "Every flight on the map.", "Your tracks on the swisstopo map, in 2D or 3D, with a replay, a short video to share – and GAFOR routes and classics to collect.", true) +
-      feature("en", "logbook", "Logbook", "Current and valid at a glance.", "Times, landings, night and PIC as CSV and printable PDF. The 90-day rule, your expiry dates and reminders before they run out.") +
+      feature("en", "logbook", "Logbook", "Your flying at a glance.", "Times, landings, night and PIC as CSV and printable PDF. Take-offs and landings of the last 90 days, your expiry dates and reminders before they run out.") +
       feature("en", "wingmen", "Wingmen & club", "Share with the people you fly with.", "Flights are visible only to wingmen you confirm. Club page, fly-outs and fly-ins, chat – and friendly collecting, never racing.", true) +
       `</div>` +
       screens("en", "A look inside the app", [["feed", "Feed – flights of your wingmen"], ["flight", "Every flight on the swisstopo map"], ["logbook", "Logbook – current & valid"], ["explore", "Explore routes and classics"]]) +
@@ -155,7 +155,7 @@ const home = {
       `<div class="wrap features">` +
       feature("de", "record", "Automatische Aufzeichnung", "Einfach fliegen.", "Downwind erkennt Start und Landung bei einem Flugplatz und zeichnet Blockzeiten und Track auf – auch mit dem Handy in der Tasche. Nach der Landung prüfen und teilen.") +
       feature("de", "map", "Landeskarte", "Jeder Flug auf der Karte.", "Deine Tracks auf der swisstopo-Karte, in 2D oder 3D, mit Wiedergabe, kurzem Video zum Teilen – und GAFOR-Routen und Klassikern zum Sammeln.", true) +
-      feature("de", "logbook", "Flugbuch", "Aktuell und gültig auf einen Blick.", "Zeiten, Landungen, Nacht und PIC als CSV und druckbares PDF. Die 90-Tage-Regel, deine Ablaufdaten und Erinnerungen, bevor etwas abläuft.") +
+      feature("de", "logbook", "Flugbuch", "Dein Fliegen auf einen Blick.", "Zeiten, Landungen, Nacht und PIC als CSV und druckbares PDF. Starts und Landungen der letzten 90 Tage, deine Ablaufdaten und Erinnerungen, bevor etwas abläuft.") +
       feature("de", "wingmen", "Wingmen & Club", "Teilen mit denen, mit denen du fliegst.", "Flüge sehen nur Wingmen, die du bestätigst. Clubseite, Ausflüge und Fly-ins, Chat – und ein bisschen Sammeln, nie Wettrennen.", true) +
       `</div>` +
       screens("de", "Ein Blick in die App", [["feed", "Feed – Flüge deiner Wingmen"], ["flight", "Jeder Flug auf der Landeskarte"], ["logbook", "Flugbuch – aktuell & gültig"], ["explore", "Routen und Klassiker entdecken"]]) +
@@ -206,14 +206,14 @@ const beta = {
 const faq = (items) => items.map(([q, a]) => `<details><summary>${q}</summary><p>${a}</p></details>`).join("\n");
 const support = {
   en: () => ({
-    title: "Downwind – Support", desc: "Questions and answers about Downwind: import, auto-record, 90-day rule, deleting your account, reporting content.",
+    title: "Downwind – Support", desc: "Questions and answers about Downwind: import, auto-record, the last 90 days, deleting your account, reporting content.",
     body: `<div class="wrap prose"><h1>Support</h1>
 <p>Questions, problems or ideas: <a href="mailto:${MAIL.hello}">${MAIL.hello}</a> – or in the app under <b>Settings → Help &amp; legal → Send feedback</b>.</p>
 <h2>Frequent questions</h2>
 ${faq([
   ["How do I import flights from ForeFlight or SkyDemon?", "Export the track as GPX (SkyDemon: Logbook → export track; ForeFlight: Track Logs → export GPX or KML) and open it in Downwind under <b>Settings → Data → Import a flight</b>. Garmin, IGC and Flightradar24 CSV work too. Older logbook entries without a track: <b>Settings → Data → Import logbook (CSV)</b>."],
   ["How does auto-record work?", "With location permission <b>Always</b>, Downwind only watches the areas of about 2 km around nearby airfields – it does not use GPS in between. Near an airfield it detects taxiing, take-off and landing and records the track. After landing the flight waits as a <b>private draft</b> until you review and share it. States: <i>off</i>, <i>waiting near airfields</i>, <i>recording</i>, <i>paused until midnight</i>. You can start and stop a recording by hand at any time."],
-  ["What does the 90-day rule show?", "Downwind counts your logged landings of the last 90 days (passenger carrying needs 3 take-offs and landings, EASA FCL.060(b)) and shows until when that is met. It is information only – your official logbook and the regulations apply."],
+  ["What does Downwind show about the last 90 days?", "Downwind counts your logged take-offs and landings of the last 90 days – numbers only. It does not tell you whether you may carry passengers: check your licence, EASA FCL.060 and FCL.740.A and your official logbook."],
   ["How do I delete my account?", "In the app: <b>Settings → Account → Delete account</b>. Your account, flights, tracks, photos, messages and all other data are deleted at once. Export first if you want to keep anything (<b>Settings → Data</b>: CSV, PDF, GPX, JSON)."],
   ["How do I report content or block a pilot?", "Tap <b>Report</b> on a flight, comment, chat message, review or profile. Moderators look at reports within 24 hours. On a pilot's profile you can also <b>Block pilot</b>."],
   ["Who sees my flights?", "Only confirmed wingmen (both of you agreed), passengers you tagged, or only you – you choose per flight. Start and end of the track can be hidden (500 m)."],
@@ -226,14 +226,14 @@ ${faq([
 </div>`,
   }),
   de: () => ({
-    title: "Downwind – Hilfe", desc: "Fragen und Antworten zu Downwind: Import, automatische Aufzeichnung, 90-Tage-Regel, Konto löschen, Inhalte melden.",
+    title: "Downwind – Hilfe", desc: "Fragen und Antworten zu Downwind: Import, automatische Aufzeichnung, die letzten 90 Tage, Konto löschen, Inhalte melden.",
     body: `<div class="wrap prose"><h1>Hilfe</h1>
 <p>Fragen, Probleme oder Ideen: <a href="mailto:${MAIL.hello}">${MAIL.hello}</a> – oder in der App unter <b>Einstellungen → Hilfe &amp; Rechtliches → Feedback senden</b>.</p>
 <h2>Häufige Fragen</h2>
 ${faq([
   ["Wie importiere ich Flüge aus ForeFlight oder SkyDemon?", "Exportiere den Track als GPX (SkyDemon: Logbook → Track exportieren; ForeFlight: Track Logs → GPX oder KML exportieren) und öffne ihn in Downwind unter <b>Einstellungen → Daten → Flug importieren</b>. Garmin, IGC und Flightradar24-CSV gehen auch. Ältere Flugbucheinträge ohne Track: <b>Einstellungen → Daten → Flugbuch importieren (CSV)</b>."],
   ["Wie funktioniert die automatische Aufzeichnung?", "Mit der Standortfreigabe <b>Immer</b> beobachtet Downwind nur Bereiche von etwa 2 km um nahe Flugplätze – dazwischen wird kein GPS verwendet. Beim Flugplatz erkennt es Rollen, Start und Landung und zeichnet den Track auf. Nach der Landung wartet der Flug als <b>privater Entwurf</b>, bis du ihn prüfst und teilst. Zustände: <i>aus</i>, <i>wartet bei Flugplätzen</i>, <i>zeichnet auf</i>, <i>pausiert bis Mitternacht</i>. Du kannst eine Aufzeichnung jederzeit von Hand starten und stoppen."],
-  ["Was zeigt die 90-Tage-Regel?", "Downwind zählt deine erfassten Landungen der letzten 90 Tage (für Passagierflüge braucht es 3 Starts und Landungen, EASA FCL.060(b)) und zeigt, bis wann das erfüllt ist. Nur zur Information – massgebend sind dein offizielles Flugbuch und die Vorschriften."],
+  ["Was zeigt Downwind zu den letzten 90 Tagen?", "Downwind zählt deine erfassten Starts und Landungen der letzten 90 Tage – nur Zahlen. Ob du Passagiere mitnehmen darfst, sagt die App nicht: massgebend sind deine Lizenz, EASA FCL.060 und FCL.740.A und dein offizielles Flugbuch."],
   ["Wie lösche ich mein Konto?", "In der App: <b>Einstellungen → Konto → Konto löschen</b>. Konto, Flüge, Tracks, Fotos, Nachrichten und alle anderen Daten werden sofort gelöscht. Exportiere vorher, was du behalten willst (<b>Einstellungen → Daten</b>: CSV, PDF, GPX, JSON)."],
   ["Wie melde ich Inhalte oder blockiere einen Piloten?", "Tippe bei einem Flug, Kommentar, einer Chatnachricht, Bewertung oder einem Profil auf <b>Melden</b>. Moderatoren schauen Meldungen innert 24 Stunden an. Im Profil eines Piloten kannst du ihn auch <b>blockieren</b>."],
   ["Wer sieht meine Flüge?", "Nur bestätigte Wingmen (ihr habt beide zugestimmt), markierte Passagiere oder nur du – du wählst pro Flug. Anfang und Ende des Tracks können ausgeblendet werden (500 m)."],
@@ -290,9 +290,9 @@ const privacy = {
 <li><b>Profile:</b> first name, last name, pilot name, profile photo, home airfield, licences and ratings, language, links to your social profiles, clubs you belong to.</li>
 <li><b>Expiry dates</b> of ratings, medical and licences that you enter – private, visible only to you.</li>
 <li><b>Flights:</b> date and times (block and flight), airfields, aircraft registration and type, role (e.g. PIC), landings, night time, notes, photos and the GPS track (position, altitude, speed, time).</li>
-<li><b>Passengers:</b> pilots you tag as passengers, or first names of guests you enter; souvenir links you create for them (only first names; you can revoke them).</li>
+<li><b>Passengers:</b> pilots you tag as passengers, or first names of guests you enter; souvenir links you create for them – only after the passenger agreed, with first names only and only the photos you tick; you can revoke them.</li>
 <li><b>Social:</b> wingman requests and connections, likes, comments, chat and club chat messages and photos, fly-out events with answers and comments, airfield reviews, photos and links, aircraft directory entries, badges and collected routes, reports and blocked pilots.</li>
-<li><b>Family and live link (optional):</b> people you link as family and positions you share with a live link while you fly.</li>
+<li><b>Family and live link (optional):</b> people you link as family and positions you share with a live link – only when you switch it on for a flight. Others see your position 5 minutes delayed and without altitude or speed; the link ends 2 hours after landing at the latest.</li>
 <li><b>Notifications:</b> a push token of your device and your notification settings.</li>
 <li><b>Feedback</b> you send: text, optional screenshot, app version and device type.</li>
 <li><b>Error reports:</b> error message, technical details, app version and platform, so we can fix problems.</li>
@@ -326,8 +326,7 @@ const privacy = {
 <li><b>Apple</b> – App Store / TestFlight distribution, Apple Push Notification service, Sign in with Apple (if you use it).</li>
 <li><b>Google Firebase Cloud Messaging</b> – delivers push notifications to your device (push token and the notification content). Sign in with Google (if offered and you use it).</li>
 <li><b>Map tiles:</b> swisstopo (Swiss Federal Office of Topography), OpenFreeMap / OpenStreetMap, terrain data from AWS Open Data. Your device loads map images directly from these services, so they see your IP address and the map area.</li>
-<li><b>Weather:</b> aviationweather.gov (NOAA) – queried by our server; only airfield codes are sent, no personal data.</li>
-<li><b>ADS-B (optional, off by default):</b> if you turn it on, our server asks adsb.lol for the positions of the aircraft registrations you choose.</li>
+<li><b>ADS-B:</b> currently switched off in the app. Data stored earlier stays protected and is deleted on request.</li>
 <li><b>Links</b> to airfield websites and webcams open in your browser; those sites have their own privacy policies.</li>
 <li>The app is built with Codemagic; Codemagic receives no user data.</li>
 </ul>
@@ -380,9 +379,9 @@ const privacy = {
 <li><b>Profil:</b> Vorname, Nachname, Pilotenname, Profilbild, Heimatflugplatz, Lizenzen und Berechtigungen, Sprache, Links zu deinen Social-Media-Profilen, Clubs.</li>
 <li><b>Ablaufdaten</b> von Berechtigungen, Medical und Lizenzen, die du eingibst – privat, nur für dich sichtbar.</li>
 <li><b>Flüge:</b> Datum und Zeiten (Block- und Flugzeit), Flugplätze, Kennzeichen und Typ des Flugzeugs, Funktion (z. B. PIC), Landungen, Nachtzeit, Notizen, Fotos und der GPS-Track (Position, Höhe, Geschwindigkeit, Zeit).</li>
-<li><b>Passagiere:</b> Piloten, die du als Passagiere markierst, oder Vornamen von Gästen, die du eingibst; Erinnerungs-Links, die du für sie erstellst (nur Vornamen, widerrufbar).</li>
+<li><b>Passagiere:</b> Piloten, die du als Passagiere markierst, oder Vornamen von Gästen, die du eingibst; Erinnerungs-Links, die du für sie erstellst – nur mit Einverständnis des Passagiers, nur mit Vornamen und nur mit den Fotos, die du ankreuzt; widerrufbar.</li>
 <li><b>Community:</b> Wingman-Anfragen und -Verbindungen, Likes, Kommentare, Chat- und Club-Chat-Nachrichten und -Fotos, Ausflüge mit Zusagen und Kommentaren, Flugplatz-Bewertungen, -Fotos und -Links, Einträge im Flugzeugverzeichnis, Abzeichen und gesammelte Routen, Meldungen und blockierte Piloten.</li>
-<li><b>Familie und Live-Link (freiwillig):</b> Personen, die du als Familie verknüpfst, und Positionen, die du während des Flugs mit einem Live-Link teilst.</li>
+<li><b>Familie und Live-Link (freiwillig):</b> Personen, die du als Familie verknüpfst, und Positionen, die du mit einem Live-Link teilst – nur wenn du ihn für einen Flug einschaltest. Andere sehen deine Position 5 Minuten verzögert und ohne Höhe oder Geschwindigkeit; der Link endet spätestens 2 Stunden nach der Landung.</li>
 <li><b>Mitteilungen:</b> ein Push-Token deines Geräts und deine Einstellungen für Mitteilungen.</li>
 <li><b>Feedback</b>, das du sendest: Text, optional ein Bildschirmfoto, App-Version und Gerätetyp.</li>
 <li><b>Fehlerberichte:</b> Fehlermeldung, technische Angaben, App-Version und Plattform, damit wir Fehler beheben können.</li>
@@ -416,8 +415,7 @@ const privacy = {
 <li><b>Apple</b> – Verteilung über App Store / TestFlight, Apple Push Notification service, «Mit Apple anmelden» (wenn du es nutzt).</li>
 <li><b>Google Firebase Cloud Messaging</b> – stellt Push-Mitteilungen auf dein Gerät zu (Push-Token und Inhalt der Mitteilung). Anmeldung mit Google (wenn angeboten und von dir genutzt).</li>
 <li><b>Kartenkacheln:</b> swisstopo (Bundesamt für Landestopografie), OpenFreeMap / OpenStreetMap, Geländedaten von AWS Open Data. Dein Gerät lädt die Kartenbilder direkt bei diesen Diensten; sie sehen deine IP-Adresse und den Kartenausschnitt.</li>
-<li><b>Wetter:</b> aviationweather.gov (NOAA) – Abfrage durch unseren Server; es werden nur Flugplatz-Codes übermittelt, keine Personendaten.</li>
-<li><b>ADS-B (freiwillig, standardmässig aus):</b> Wenn du es einschaltest, fragt unser Server bei adsb.lol die Positionen der von dir gewählten Kennzeichen ab.</li>
+<li><b>ADS-B:</b> in der App zurzeit ausgeschaltet. Früher gespeicherte Daten bleiben geschützt und werden auf Wunsch gelöscht.</li>
 <li><b>Links</b> zu Flugplatz-Websites und Webcams öffnen sich in deinem Browser; dort gelten deren Datenschutzerklärungen.</li>
 <li>Die App wird mit Codemagic gebaut; Codemagic erhält keine Nutzerdaten.</li>
 </ul>
@@ -463,7 +461,7 @@ const terms = {
 <p class="muted">Last updated: ${TERMS_UPDATED.en} · Version 1.0</p>
 <p>These terms apply to taking part in the beta of the Downwind app (Apple TestFlight) and its web version (flydownwind.app), provided by Christoph Umbricht, Untersiggenthal, Switzerland («Downwind», «we»). By signing up for the beta or using a beta version you accept them. Our <a href="/privacy/">privacy policy</a> applies as well.</p>
 <h2>1. Beta software</h2><p>Beta versions are test versions. They can contain errors, crash or show wrong values. Features can change or disappear without notice.</p>
-<h2>2. Not for navigation – the pilot in command decides</h2><p>Downwind is <b>not for navigation and not for flight planning</b>. Maps, traffic circuits (not verified by the airfields), routes, weather and the 90-day indication are for information only. Plan and fly with official charts, AIP, VAC and NOTAM. The responsibility for every flight stays with the pilot in command.</p>
+<h2>2. Not for navigation – the pilot in command decides</h2><p>Downwind is <b>not for navigation and not for flight planning</b>. Downwind shows no map, position or flight data during a flight. Maps, traffic circuits (only those verified by the airfield are shown prominently), routes and the 90-day numbers are for information only. Plan and fly with official charts, AIP, VAC and NOTAM. The responsibility for every flight stays with the pilot in command.</p>
 <h2>3. Safety</h2><p>Operate the app before taxi and after shutdown only – never in critical phases of flight. Never fly lower, faster, longer or in worse weather because of Downwind, its challenges or routes.</p>
 <h2>4. Your logbook and your data</h2><p>Please keep your <b>official logbook</b>; Downwind does not replace it during the beta. In rare cases data can be lost during the beta – export your logbook regularly (Settings → Data). How we handle personal data is described in the <a href="/privacy/">privacy policy</a>.</p>
 <h2>5. Costs and Pro</h2><p>The beta is free. As a thank you, beta testers get Downwind Pro until the date shown in the app. Pro never renews automatically and nothing becomes payable without your active purchase in the App Store; prices after the launch are announced in advance.</p>
@@ -480,7 +478,7 @@ const terms = {
 <p class="muted">Stand: ${TERMS_UPDATED.de} · Version 1.0</p>
 <p>Diese Bedingungen gelten für die Teilnahme an der Beta der App Downwind (Apple TestFlight) und ihrer Web-Version (flydownwind.app), angeboten von Christoph Umbricht, Untersiggenthal («Downwind», «wir»). Mit der Anmeldung zur Beta oder der Nutzung einer Beta-Version akzeptierst du sie. Zusätzlich gilt unsere <a href="/de/privacy/">Datenschutzerklärung</a>.</p>
 <h2>1. Beta-Software</h2><p>Beta-Versionen sind Testversionen. Sie können Fehler enthalten, abstürzen oder falsche Werte anzeigen. Funktionen können sich ohne Ankündigung ändern oder wegfallen.</p>
-<h2>2. Nicht zur Navigation – der PIC entscheidet</h2><p>Downwind ist <b>nicht zur Navigation und nicht zur Flugvorbereitung</b> bestimmt. Karten, Platzrunden (nicht von den Flugplätzen geprüft), Routen, Wetter und die 90-Tage-Anzeige dienen nur zur Information. Plane und fliege mit offiziellen Karten, AIP, VAC und NOTAM. Die Verantwortung für jeden Flug liegt beim verantwortlichen Piloten (PIC).</p>
+<h2>2. Nicht zur Navigation – der PIC entscheidet</h2><p>Downwind ist <b>nicht zur Navigation und nicht zur Flugvorbereitung</b> bestimmt. Während des Flugs zeigt Downwind keine Karte, Position oder Flugdaten. Karten, Platzrunden (gross nur, wenn vom Flugplatz geprüft), Routen und die 90-Tage-Zahlen dienen nur zur Information. Plane und fliege mit offiziellen Karten, AIP, VAC und NOTAM. Die Verantwortung für jeden Flug liegt beim verantwortlichen Piloten (PIC).</p>
 <h2>3. Sicherheit</h2><p>Bediene die App nur vor dem Rollen und nach dem Abstellen – nie in kritischen Flugphasen. Fliege wegen Downwind, seiner Challenges oder Routen nie tiefer, schneller, länger oder bei schlechterem Wetter.</p>
 <h2>4. Dein Flugbuch und deine Daten</h2><p>Führe bitte dein <b>offizielles Flugbuch</b> weiter; Downwind ersetzt es während der Beta nicht. In seltenen Fällen können während der Beta Daten verloren gehen – exportiere dein Flugbuch regelmässig (Einstellungen → Daten). Wie wir mit Personendaten umgehen, steht in der <a href="/de/privacy/">Datenschutzerklärung</a>.</p>
 <h2>5. Kosten und Pro</h2><p>Die Beta ist gratis. Als Dankeschön erhalten Beta-Testerinnen und -Tester Downwind Pro bis zu dem Datum, das in der App angezeigt wird. Pro verlängert sich nie automatisch, und ohne deinen aktiven Kauf im App Store wird nichts kostenpflichtig; Preise nach dem Start kündigen wir vorher an.</p>
