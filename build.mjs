@@ -326,6 +326,7 @@ const privacy = {
 <li><b>Apple</b> – App Store / TestFlight distribution, Apple Push Notification service, Sign in with Apple (if you use it).</li>
 <li><b>Google Firebase Cloud Messaging</b> – delivers push notifications to your device (push token and the notification content). Sign in with Google (if offered and you use it).</li>
 <li><b>Map tiles:</b> swisstopo (Swiss Federal Office of Topography), OpenFreeMap / OpenStreetMap, terrain data from AWS Open Data. Your device loads map images directly from these services, so they see your IP address and the map area.</li>
+<li><b>Weather:</b> aviationweather.gov (NOAA) – after a flight our server fetches the METAR and TAF of that time for the departure and destination airfield, shown in your logbook as a reminder; only airfield codes and times are sent, no personal data.</li>
 <li><b>ADS-B:</b> currently switched off in the app. Data stored earlier stays protected and is deleted on request.</li>
 <li><b>Links</b> to airfield websites and webcams open in your browser; those sites have their own privacy policies.</li>
 <li>The app is built with Codemagic; Codemagic receives no user data.</li>
@@ -415,6 +416,7 @@ const privacy = {
 <li><b>Apple</b> – Verteilung über App Store / TestFlight, Apple Push Notification service, «Mit Apple anmelden» (wenn du es nutzt).</li>
 <li><b>Google Firebase Cloud Messaging</b> – stellt Push-Mitteilungen auf dein Gerät zu (Push-Token und Inhalt der Mitteilung). Anmeldung mit Google (wenn angeboten und von dir genutzt).</li>
 <li><b>Kartenkacheln:</b> swisstopo (Bundesamt für Landestopografie), OpenFreeMap / OpenStreetMap, Geländedaten von AWS Open Data. Dein Gerät lädt die Kartenbilder direkt bei diesen Diensten; sie sehen deine IP-Adresse und den Kartenausschnitt.</li>
+<li><b>Wetter:</b> aviationweather.gov (NOAA) – nach einem Flug holt unser Server das METAR und den TAF von damals für Start- und Zielflugplatz, als Erinnerung in deinem Flugbuch; es werden nur Flugplatz-Codes und Zeiten übermittelt, keine Personendaten.</li>
 <li><b>ADS-B:</b> in der App zurzeit ausgeschaltet. Früher gespeicherte Daten bleiben geschützt und werden auf Wunsch gelöscht.</li>
 <li><b>Links</b> zu Flugplatz-Websites und Webcams öffnen sich in deinem Browser; dort gelten deren Datenschutzerklärungen.</li>
 <li>Die App wird mit Codemagic gebaut; Codemagic erhält keine Nutzerdaten.</li>
