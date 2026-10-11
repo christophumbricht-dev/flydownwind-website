@@ -294,6 +294,7 @@ const privacy = {
 <li><b>Social:</b> wingman requests and connections, likes, comments, chat and club chat messages and photos, fly-out events with answers and comments, airfield reviews, photos and links, aircraft directory entries, badges and collected routes, reports and blocked pilots.</li>
 <li><b>Family and live link (optional):</b> people you link as family and positions you share with a live link – only when you switch it on for a flight. Others see your position 5 minutes delayed and without altitude or speed; the link ends 2 hours after landing at the latest.</li>
 <li><b>Notifications:</b> a push token of your device and your notification settings.</li>
+<li><b>Theory quiz (optional):</b> your answers to the theory questions (question, right or wrong, time, catalogue version) – private, only you see them, no ranking. If you report a question: reason, your text and the app language; admins see it to check the question.</li>
 <li><b>Feedback</b> you send: text, optional screenshot, app version and device type.</li>
 <li><b>Error reports:</b> error message, technical details, app version and platform, so we can fix problems.</li>
 <li><b>Beta sign-up on this website (optional):</b> first name, last name, e-mail address, how you heard of Downwind and your message – only to invite you to the TestFlight beta. The form sends these details to our database (Supabase, Frankfurt) only when you submit it.</li>
@@ -384,6 +385,7 @@ const privacy = {
 <li><b>Community:</b> Wingman-Anfragen und -Verbindungen, Likes, Kommentare, Chat- und Club-Chat-Nachrichten und -Fotos, Ausflüge mit Zusagen und Kommentaren, Flugplatz-Bewertungen, -Fotos und -Links, Einträge im Flugzeugverzeichnis, Abzeichen und gesammelte Routen, Meldungen und blockierte Piloten.</li>
 <li><b>Familie und Live-Link (freiwillig):</b> Personen, die du als Familie verknüpfst, und Positionen, die du mit einem Live-Link teilst – nur wenn du ihn für einen Flug einschaltest. Andere sehen deine Position 5 Minuten verzögert und ohne Höhe oder Geschwindigkeit; der Link endet spätestens 2 Stunden nach der Landung.</li>
 <li><b>Mitteilungen:</b> ein Push-Token deines Geräts und deine Einstellungen für Mitteilungen.</li>
+<li><b>Theorie-Quiz (freiwillig):</b> deine Antworten auf die Theoriefragen (Frage, richtig oder falsch, Zeitpunkt, Katalogversion) – privat, nur du siehst sie, keine Rangliste. Wenn du eine Frage meldest: Grund, dein Text und die App-Sprache; die Admins sehen die Meldung, um die Frage zu prüfen.</li>
 <li><b>Feedback</b>, das du sendest: Text, optional ein Bildschirmfoto, App-Version und Gerätetyp.</li>
 <li><b>Fehlerberichte:</b> Fehlermeldung, technische Angaben, App-Version und Plattform, damit wir Fehler beheben können.</li>
 <li><b>Beta-Anmeldung auf dieser Website (freiwillig):</b> Vorname, Nachname, E-Mail-Adresse, wie du auf Downwind gekommen bist, und deine Nachricht – nur, um dich zur TestFlight-Beta einzuladen. Das Formular sendet die Angaben erst beim Absenden an unsere Datenbank (Supabase, Frankfurt).</li>
