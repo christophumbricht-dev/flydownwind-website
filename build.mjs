@@ -318,7 +318,7 @@ const privacy = {
 <li>Airfield reviews, airfield photos and aircraft directory entries are visible to all signed-in pilots, with your name. Club members see club content; fly-out events are visible according to the visibility you choose (club, wingmen or public).</li>
 <li>A live link or souvenir link can be opened by anyone who has the link, until it ends or you revoke it.</li>
 <li>Moderators see reported content to handle reports. Downwind admins see feedback, error reports, beta sign-ups, verification requests and reported quiz questions to handle them, and anonymous totals (e.g. number of pilots and flights).</li>
-<li>Your confirmed wingmen see a monthly leaderboard (hours, landings, airfields, Pilot Form, sectors) of you and the other wingmen – not if you set your map to "Only me" or block them.</li>
+<li>Your confirmed wingmen see a monthly leaderboard (hours, landings, airfields, activity, sectors) of you and the other wingmen – not if you set your map to "Only me" or block them.</li>
 <li><b>Chat messages are not end-to-end encrypted.</b> They are encrypted in transit and stored on our provider's servers; only the members of a chat can read them in the app.</li>
 </ul>
 
@@ -413,7 +413,7 @@ const privacy = {
 <li>Flugplatz-Bewertungen, -Fotos und Einträge im Flugzeugverzeichnis sehen alle angemeldeten Piloten, mit deinem Namen. Clubmitglieder sehen die Inhalte des Clubs; Ausflüge sind so sichtbar, wie du es wählst (Club, Wingmen oder öffentlich).</li>
 <li>Einen Live-Link oder Erinnerungs-Link kann öffnen, wer den Link hat – bis er endet oder du ihn widerrufst.</li>
 <li>Moderatoren sehen gemeldete Inhalte, um Meldungen zu bearbeiten. Die Downwind-Admins sehen Feedback, Fehlerberichte, Beta-Anmeldungen, Verifizierungs-Anfragen und gemeldete Quizfragen, um sie zu bearbeiten, sowie anonyme Gesamtzahlen (z. B. Anzahl Piloten und Flüge).</li>
-<li>Deine bestätigten Wingmen sehen eine Monats-Rangliste (Stunden, Landungen, Flugplätze, Pilot Form, Sektoren) von dir und den anderen Wingmen – nicht, wenn deine Karte auf «Nur ich» steht oder du sie blockierst.</li>
+<li>Deine bestätigten Wingmen sehen eine Monats-Rangliste (Stunden, Landungen, Flugplätze, Aktivität, Sektoren) von dir und den anderen Wingmen – nicht, wenn deine Karte auf «Nur ich» steht oder du sie blockierst.</li>
 <li><b>Chatnachrichten sind nicht Ende-zu-Ende-verschlüsselt.</b> Sie werden verschlüsselt übertragen und auf den Servern unseres Anbieters gespeichert; lesen können sie in der App nur die Mitglieder eines Chats.</li>
 </ul>
 
