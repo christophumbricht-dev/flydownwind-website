@@ -290,10 +290,13 @@ const privacy = {
 <li><b>Profile:</b> first name, last name, pilot name, profile photo, home airfield, licences and ratings, language, links to your social profiles, clubs you belong to.</li>
 <li><b>Expiry dates</b> of ratings, medical and licences that you enter – private, visible only to you.</li>
 <li><b>Flights:</b> date and times (block and flight), airfields, aircraft registration and type, role (e.g. PIC), landings, night time, notes, photos and the GPS track (position, altitude, speed, time).</li>
-<li><b>Passengers:</b> pilots you tag as passengers, or first names of guests you enter; souvenir links you create for them – only after the passenger agreed, with first names only and only the photos you tick; you can revoke them.</li>
-<li><b>Social:</b> wingman requests and connections, likes, comments, chat and club chat messages and photos, fly-out events with answers and comments, airfield reviews, photos and links, aircraft directory entries, badges and collected routes, reports and blocked pilots.</li>
-<li><b>Family and live link (optional):</b> people you link as family and positions you share with a live link – only when you switch it on for a flight. Others see your position 5 minutes delayed and without altitude or speed; the link ends 2 hours after landing at the latest.</li>
+<li><b>Passengers:</b> pilots you tag as passengers, or first names of guests you enter; souvenir links you create for them – only after the passenger agreed, with first names only and only the photos you tick; you can revoke them. A passenger can leave a short note for the pilot on the souvenir page; the pilot decides whether it is shown.</li>
+<li><b>Shared flights (optional):</b> if you switch it on, Downwind compares the times and airfields of flights between mutual wingmen to suggest a shared flight (same aircraft, passenger, aerotow). Nothing is linked without the yes of both pilots.</li>
+<li><b>Training (optional):</b> if you train with a flight instructor in Downwind: the exercises and notes of your training, visible to you and the instructor you choose; personal notes stay private.</li>
+<li><b>Social:</b> wingman requests and connections, likes, comments, chat and club chat messages and photos, fly-out events with answers and comments, airfield reviews, photos and links, aircraft directory entries, badges, sectors and collected routes, reports and blocked pilots.</li>
+<li><b>Family and live link (optional):</b> people you link as family and positions you share with a live link – only when you switch it on for a flight. Others see your position 5 minutes delayed and without altitude or speed; the link ends 2 hours after landing at the latest. Linked family members see a simple view of your flights after landing and can get a "landed" message; you can end the link at any time.</li>
 <li><b>Notifications:</b> a push token of your device and your notification settings.</li>
+<li><b>Settings:</b> your app settings (e.g. language, visibility, theory quiz) and, once required, the version and time you agreed to the terms of use.</li>
 <li><b>Theory quiz (optional):</b> your answers to the theory questions (question, right or wrong, time, catalogue version) – private, only you see them, no ranking. If you report a question: reason, your text and the app language; admins see it to check the question.</li>
 <li><b>Feedback</b> you send: text, optional screenshot, app version and device type.</li>
 <li><b>Error reports:</b> error message, technical details, app version and platform, so we can fix problems.</li>
@@ -314,7 +317,8 @@ const privacy = {
 <li>Pilots who are not your wingmen see your name and profile photo, so they can send you a request. Earned badges and collected routes (not the flights behind them) can be seen by signed-in pilots.</li>
 <li>Airfield reviews, airfield photos and aircraft directory entries are visible to all signed-in pilots, with your name. Club members see club content; fly-out events are visible according to the visibility you choose (club, wingmen or public).</li>
 <li>A live link or souvenir link can be opened by anyone who has the link, until it ends or you revoke it.</li>
-<li>Moderators see reported content to handle reports.</li>
+<li>Moderators see reported content to handle reports. Downwind admins see feedback, error reports, beta sign-ups, verification requests and reported quiz questions to handle them, and anonymous totals (e.g. number of pilots and flights).</li>
+<li>Your confirmed wingmen see a monthly leaderboard (hours, landings, airfields, Pilot Form, sectors) of you and the other wingmen – not if you set your map to "Only me" or block them.</li>
 <li><b>Chat messages are not end-to-end encrypted.</b> They are encrypted in transit and stored on our provider's servers; only the members of a chat can read them in the app.</li>
 </ul>
 
@@ -381,10 +385,13 @@ const privacy = {
 <li><b>Profil:</b> Vorname, Nachname, Pilotenname, Profilbild, Heimatflugplatz, Lizenzen und Berechtigungen, Sprache, Links zu deinen Social-Media-Profilen, Clubs.</li>
 <li><b>Ablaufdaten</b> von Berechtigungen, Medical und Lizenzen, die du eingibst – privat, nur für dich sichtbar.</li>
 <li><b>Flüge:</b> Datum und Zeiten (Block- und Flugzeit), Flugplätze, Kennzeichen und Typ des Flugzeugs, Funktion (z. B. PIC), Landungen, Nachtzeit, Notizen, Fotos und der GPS-Track (Position, Höhe, Geschwindigkeit, Zeit).</li>
-<li><b>Passagiere:</b> Piloten, die du als Passagiere markierst, oder Vornamen von Gästen, die du eingibst; Erinnerungs-Links, die du für sie erstellst – nur mit Einverständnis des Passagiers, nur mit Vornamen und nur mit den Fotos, die du ankreuzt; widerrufbar.</li>
-<li><b>Community:</b> Wingman-Anfragen und -Verbindungen, Likes, Kommentare, Chat- und Club-Chat-Nachrichten und -Fotos, Ausflüge mit Zusagen und Kommentaren, Flugplatz-Bewertungen, -Fotos und -Links, Einträge im Flugzeugverzeichnis, Abzeichen und gesammelte Routen, Meldungen und blockierte Piloten.</li>
-<li><b>Familie und Live-Link (freiwillig):</b> Personen, die du als Familie verknüpfst, und Positionen, die du mit einem Live-Link teilst – nur wenn du ihn für einen Flug einschaltest. Andere sehen deine Position 5 Minuten verzögert und ohne Höhe oder Geschwindigkeit; der Link endet spätestens 2 Stunden nach der Landung.</li>
+<li><b>Passagiere:</b> Piloten, die du als Passagiere markierst, oder Vornamen von Gästen, die du eingibst; Erinnerungs-Links, die du für sie erstellst – nur mit Einverständnis des Passagiers, nur mit Vornamen und nur mit den Fotos, die du ankreuzt; widerrufbar. Ein Passagier kann auf der Erinnerungsseite eine kurze Notiz für den Piloten hinterlassen; der Pilot entscheidet, ob sie angezeigt wird.</li>
+<li><b>Gemeinsame Flüge (freiwillig):</b> Wenn du es einschaltest, vergleicht Downwind Zeiten und Flugplätze der Flüge von gegenseitigen Wingmen, um einen gemeinsamen Flug vorzuschlagen (gleiches Flugzeug, Passagier, Schlepp). Verknüpft wird nichts ohne das Ja beider Piloten.</li>
+<li><b>Ausbildung (freiwillig):</b> Wenn du in Downwind mit einem Fluglehrer trainierst: die Übungen und Notizen deiner Ausbildung, sichtbar für dich und den Fluglehrer, den du wählst; persönliche Notizen bleiben privat.</li>
+<li><b>Community:</b> Wingman-Anfragen und -Verbindungen, Likes, Kommentare, Chat- und Club-Chat-Nachrichten und -Fotos, Ausflüge mit Zusagen und Kommentaren, Flugplatz-Bewertungen, -Fotos und -Links, Einträge im Flugzeugverzeichnis, Abzeichen, Sektoren und gesammelte Routen, Meldungen und blockierte Piloten.</li>
+<li><b>Familie und Live-Link (freiwillig):</b> Personen, die du als Familie verknüpfst, und Positionen, die du mit einem Live-Link teilst – nur wenn du ihn für einen Flug einschaltest. Andere sehen deine Position 5 Minuten verzögert und ohne Höhe oder Geschwindigkeit; der Link endet spätestens 2 Stunden nach der Landung. Verknüpfte Familienmitglieder sehen eine einfache Ansicht deiner Flüge nach der Landung und können eine «Gelandet»-Mitteilung erhalten; du kannst die Verknüpfung jederzeit beenden.</li>
 <li><b>Mitteilungen:</b> ein Push-Token deines Geräts und deine Einstellungen für Mitteilungen.</li>
+<li><b>Einstellungen:</b> deine App-Einstellungen (z. B. Sprache, Sichtbarkeit, Theorie-Quiz) und, sobald nötig, Version und Zeitpunkt deiner Zustimmung zu den Nutzungsbedingungen.</li>
 <li><b>Theorie-Quiz (freiwillig):</b> deine Antworten auf die Theoriefragen (Frage, richtig oder falsch, Zeitpunkt, Katalogversion) – privat, nur du siehst sie, keine Rangliste. Wenn du eine Frage meldest: Grund, dein Text und die App-Sprache; die Admins sehen die Meldung, um die Frage zu prüfen.</li>
 <li><b>Feedback</b>, das du sendest: Text, optional ein Bildschirmfoto, App-Version und Gerätetyp.</li>
 <li><b>Fehlerberichte:</b> Fehlermeldung, technische Angaben, App-Version und Plattform, damit wir Fehler beheben können.</li>
@@ -405,7 +412,8 @@ const privacy = {
 <li>Piloten, die nicht deine Wingmen sind, sehen deinen Namen und dein Profilbild, damit sie dir eine Anfrage schicken können. Erreichte Abzeichen und gesammelte Routen (nicht die Flüge dahinter) können angemeldete Piloten sehen.</li>
 <li>Flugplatz-Bewertungen, -Fotos und Einträge im Flugzeugverzeichnis sehen alle angemeldeten Piloten, mit deinem Namen. Clubmitglieder sehen die Inhalte des Clubs; Ausflüge sind so sichtbar, wie du es wählst (Club, Wingmen oder öffentlich).</li>
 <li>Einen Live-Link oder Erinnerungs-Link kann öffnen, wer den Link hat – bis er endet oder du ihn widerrufst.</li>
-<li>Moderatoren sehen gemeldete Inhalte, um Meldungen zu bearbeiten.</li>
+<li>Moderatoren sehen gemeldete Inhalte, um Meldungen zu bearbeiten. Die Downwind-Admins sehen Feedback, Fehlerberichte, Beta-Anmeldungen, Verifizierungs-Anfragen und gemeldete Quizfragen, um sie zu bearbeiten, sowie anonyme Gesamtzahlen (z. B. Anzahl Piloten und Flüge).</li>
+<li>Deine bestätigten Wingmen sehen eine Monats-Rangliste (Stunden, Landungen, Flugplätze, Pilot Form, Sektoren) von dir und den anderen Wingmen – nicht, wenn deine Karte auf «Nur ich» steht oder du sie blockierst.</li>
 <li><b>Chatnachrichten sind nicht Ende-zu-Ende-verschlüsselt.</b> Sie werden verschlüsselt übertragen und auf den Servern unseres Anbieters gespeichert; lesen können sie in der App nur die Mitglieder eines Chats.</li>
 </ul>
 
