@@ -519,6 +519,12 @@ It is a synthetic track, not a real flight.</p>
 <li>Choose <b>Import track</b>, tap <b>tap to choose a file</b> and pick <b>downwind-sample-circuits.gpx</b> from Downloads.</li>
 <li>Check the flight and save it – it appears in the logbook and on the map.</li></ol>
 <p class="muted">Downwind is a social flight log and is not for navigation.</p></div>` }));
+// terms of use (draft, app-review-oktober D1): noindex, not linked, not in the sitemap – released by Christoph after the legal check
+const TOU = JSON.parse(fs.readFileSync(path.join(ROOT, "content-terms-of-use.json"), "utf8"));
+const touHtml = x => x.sections.map(([h, ps]) => `<h2>${h}</h2>${ps.map(q => `<p>${q.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")}</p>`).join("")}`).join("\n");
+for (const lang of ["en", "de"]) { const x = TOU[lang];
+  out(path.join(lang === "de" ? "de" : "", "terms-of-use", "index.html"), layout({ lang, page: "terms-of-use", noindex: true, title: `Downwind – ${x.title}`, desc: x.title,
+    body: `<div class="wrap prose"><p class="note"><b>${x.draft}</b></p><h1>${x.title}</h1><p class="muted">${x.stand}</p>${touHtml(x)}</div>` })); }
 out("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`);
 out("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(u => `  <url><loc>${u}</loc></url>`).join("\n")}\n</urlset>\n`);
 out("CNAME", "flydownwind.ch\n");
