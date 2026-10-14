@@ -78,6 +78,8 @@ function layout({ lang, page, title, desc, body, noindex }) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+${page === "live" || page === "souvenir" ? "" : `<script>/* a sign-in link that landed here (Supabase falls back to the site URL) belongs to the web version */
+(function(){var s=location.search,h=location.hash;if(/[?&]code=/.test(s)||/(access_token|error_description)=/.test(h))location.replace("https://flydownwind.app/"+s+h)})()</script>`}
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">
 ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="${canon}">
